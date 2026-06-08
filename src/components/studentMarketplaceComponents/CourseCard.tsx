@@ -1,0 +1,58 @@
+import { ArrowRight } from "lucide-react";
+import type { Course } from "../../@types/course";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { Button } from "../ui/button";
+import { Separator } from "../ui/separator";
+import { useNavigate } from "react-router-dom";
+import { useCourseEnrollmentStore } from "../../store/studentmarketplaceStores/courseEnrollmentStore";
+
+const CourseCard=({course}:{course:Course})=>{
+    const {enrolledCoursesIds}=useCourseEnrollmentStore();
+    const navigate=useNavigate();
+    
+
+    return (
+        <div className="flex flex-col rounded-xl overflow-hidden border border-border hover:shadow-lg hover:-translate-y-[4px] hover:shadow-primary/10 hover:border-primary/30 hover:duration-300 transition-all">
+            {/* course image */}
+            <div className="w-full bg-bg-1 overflow-hidden">
+                <img src={course.thumbnail instanceof File? URL.createObjectURL(course.thumbnail):course.thumbnail} alt={course.title} className="object-cover"/>
+            </div>
+            {/* course info */}
+            <div className="flex flex-col gap-2 p-4">
+                <span className="text-[10px] text-primary uppercase font-medium tracking-wider">{course.category?.title}</span>
+                <p className="text-text-strong line-clamp-2 text-base font-medium">{course.title}</p>
+                <div className="flex items-center gap-2">
+                    <Avatar>
+                        <AvatarFallback>{course.teacher.user.name.charAt(0)}</AvatarFallback>
+                        <AvatarImage src={course.teacher.user.avatar}/>
+                    </Avatar>
+                    <span className="text-sm text-text-strong">{course.teacher.user.name}</span>
+                </div>
+
+                <Separator/>
+                <div className="flex flex-row justify-between items-center">
+                    <p className="text-lg font-semibold text-primary">${course.price}</p>
+                    {enrolledCoursesIds.includes(course.id) ? (
+                        <Button
+                            size="sm"
+                            className="rounded-full bg-primary hover:bg-primary/80 text-white font-medium cursor-pointer"
+                            onClick={()=>navigate(`/marketplace/learnings/course/${course.id}`)}
+                        >
+                            Go to Course
+                        </Button>
+                    ) : (
+                        <Button
+                            onClick={() => navigate(`/marketplace/browse/courses/${course.id}`)}
+                            size="icon"
+                            className="rounded-full bg-primary hover:bg-primary/80 text-white font-medium cursor-pointer"
+                        >
+                            <ArrowRight />
+                        </Button>
+                    )}
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default CourseCard;
