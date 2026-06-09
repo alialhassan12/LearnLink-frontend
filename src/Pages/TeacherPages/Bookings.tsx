@@ -8,6 +8,7 @@ import { Button } from "../../components/ui/button";
 import { Spinner } from "../../components/ui/spinner";
 import MessageButton from "../../components/MessageButton";
 import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
+import { toast } from "sonner";
 
 const Bookings = () => {
     const {teacherBookings,isGettingTeacherBookings,getTeacherBookings,isRejectingBooking,rejectBooking,approveBooking,isApprovingBooking,max_live_sessions,current_live_sessions}=useBookingStore();
@@ -43,6 +44,9 @@ const Bookings = () => {
         await rejectBooking(booking_id);
     }
     const handleApproveBooking=async(booking_id:number)=>{
+        if(current_live_sessions>=max_live_sessions){
+            return toast.error("You have reached the maximum number of live sessions allowed per month. Please upgrade your subscription plan or wait for the next month.");
+        }
         await approveBooking(booking_id);
     }
 
@@ -76,10 +80,10 @@ const Bookings = () => {
                     <p className="font-medium">Live Sessions Tracker: {current_live_sessions} / {max_live_sessions} per month</p>
                 </div>
                 <div className="w-full bg-primary/10 rounded-full h-2 dark:bg-primary/20">
-                    <div className="bg-primary h-2 rounded-full" style={{width: `${(current_live_sessions / max_live_sessions) * 100}%`}}></div>
+                    <div className="bg-primary h-2 rounded-full max-w-[100%]" style={{width: `${(current_live_sessions / max_live_sessions) * 100}%`}}></div>
                 </div>
                 {
-                    (current_live_sessions/max_live_sessions)*100 === 100 && (
+                    (current_live_sessions>=max_live_sessions) && (
                         <div className="text-sm font-medium text-destructive w-full text-left p-2">
                             <p>You have reached your monthly limit of live sessions.</p>
                             <p>You cant approve new booking until next month.</p>

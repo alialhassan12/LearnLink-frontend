@@ -57,10 +57,10 @@ const CreatePlan = () => {
         planDescription:string,
         type:string,
         price:number,
-        duration:number,
+        duration:number | null,
         is_free:boolean,
         status:string
-    }>({planName:"",planDescription:"",type:"",price:1,duration:1,is_free:false,status:"active"});
+    }>({planName:"",planDescription:"",type:"",price:1,duration:null,is_free:false,status:"active"});
 
     const [customFeatures,setCustomFeatures]=useState<CustomFeature[]>([]);
 
@@ -70,7 +70,7 @@ const CreatePlan = () => {
         setCustomFeatures(prev => prev.filter(f => f.name !== name));
     };
     const clearForm=()=>{
-        setFormData({planName:"",planDescription:"",type:"",price:1,is_free:false,duration:1,status:"active"});
+        setFormData({planName:"",planDescription:"",type:"",price:1,is_free:false,duration:null,status:"active"});
         setCustomFeatures([]);
         setStandardFeatures([
             {
@@ -373,7 +373,8 @@ const CreatePlan = () => {
                                     placeholder="Enter duration in days" 
                                     className="h-10 text-text-strong w-full sm:w-52" 
                                     min={1} 
-                                    value={formData.duration}
+                                    value={formData.is_free?null:formData.duration}
+                                    disabled={formData.is_free}
                                     onChange={(e)=>setFormData({...formData,duration:Number(e.target.value)})}
                                 />
                             </div>
@@ -392,7 +393,7 @@ const CreatePlan = () => {
                                     />
                                     <Switch 
                                         checked={formData.is_free}
-                                        onCheckedChange={(checked)=>setFormData({...formData,is_free:checked,price:0})}
+                                        onCheckedChange={(checked)=>setFormData({...formData,is_free:checked,price:0,duration:checked?null:1})}
                                         className="cursor-pointer"
                                     />
                                     <span className="text-text-weak">Free</span>
@@ -427,7 +428,11 @@ const CreatePlan = () => {
                             </div>
                             <div className="flex flex-row items-center gap-2">
                                 <p className="text-3xl font-bold text-text-strong">${formData.price || 0}</p>
-                                <span className="text-sm text-text-weak">/ {formData.duration || 0} days</span>
+                                {formData.duration !== null?(
+                                    <span className="text-sm text-text-weak">/ {formData.duration || 0} days</span>
+                                ):(
+                                    <span className="text-sm text-text-weak">Lifetime</span>
+                                )}
                             </div>
                             <Separator/>
                             {/* features */}

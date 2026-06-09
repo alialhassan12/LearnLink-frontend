@@ -142,7 +142,11 @@ const PlanCard = ({ plan }: { plan: Plan }) => {
                 {/* pricing */}
                 <div className="flex items-end gap-1">
                     <span className="text-4xl font-extrabold text-text-strong">${plan.price}</span>
-                    <span className="text-text-weak text-sm mb-1">/ {plan.duration_days} days</span>
+                    {plan.is_free?(
+                        <span className="text-text-weak text-sm mb-1">Lifetime</span>
+                    ):(
+                        <span className="text-text-weak text-sm mb-1">/ {plan.duration_days} days</span>
+                    )}
                 </div>
 
                 <Separator />
