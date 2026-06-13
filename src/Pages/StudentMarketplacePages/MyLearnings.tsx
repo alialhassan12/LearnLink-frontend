@@ -7,9 +7,10 @@ import { Avatar, AvatarFallback, AvatarImage } from "../../components/ui/avatar"
 import { Button } from "../../components/ui/button";
 import { Skeleton } from "../../components/ui/skeleton";
 import { useNavigate } from "react-router-dom";
+import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "../../components/ui/pagination";
 
 const MyLearnings = () => {
-    const { getEnrollments, enrollments, isGettingEnrollments } = useCourseEnrollmentStore();
+    const { getEnrollments, enrollments, isGettingEnrollments, enrollmentsPagination } = useCourseEnrollmentStore();
     const [filterTab, setFilterTab] = useState<string>("all");
     const [searchQuery, setSearchQuery] = useState<string>("");
 
@@ -165,6 +166,47 @@ const MyLearnings = () => {
                     </div>
                 )}
             </div>
+
+            {enrollmentsPagination && enrollmentsPagination.last_page > 1 && (
+                <Pagination className="mt-8">
+                    <PaginationContent>
+                        <PaginationItem>
+                            <PaginationPrevious
+                                size={"lg"}
+                                onClick={() => {
+                                    if (enrollmentsPagination.current_page > 1) {
+                                        getEnrollments(enrollmentsPagination.current_page - 1);
+                                    }
+                                }}
+                                className={`${enrollmentsPagination.current_page === 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}`}
+                            />
+                        </PaginationItem>
+                        {Array.from({ length: enrollmentsPagination.last_page }).map((_, i) => (
+                            <PaginationItem key={i}>
+                                <PaginationLink
+                                    size={"lg"}
+                                    onClick={() => getEnrollments(i + 1)}
+                                    isActive={enrollmentsPagination.current_page === i + 1}
+                                    className="cursor-pointer"
+                                >
+                                    {i + 1}
+                                </PaginationLink>
+                            </PaginationItem>
+                        ))}
+                        <PaginationItem>
+                            <PaginationNext 
+                                size={"lg"}
+                                onClick={() => {
+                                    if (enrollmentsPagination.current_page < enrollmentsPagination.last_page) {
+                                        getEnrollments(enrollmentsPagination.current_page + 1);
+                                    }
+                                }}
+                                className={`${enrollmentsPagination.current_page === enrollmentsPagination.last_page ? 'pointer-events-none opacity-50' : 'cursor-pointer'}`}
+                            />
+                        </PaginationItem>
+                    </PaginationContent>
+                </Pagination>
+            )}
         </div>
     );
 };

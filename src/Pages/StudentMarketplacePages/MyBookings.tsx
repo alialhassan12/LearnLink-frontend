@@ -7,9 +7,10 @@ import { Avatar, AvatarFallback, AvatarImage } from "../../components/ui/avatar"
 import { Button } from "../../components/ui/button";
 import type { user } from "../../@types/user";
 import MessageButton from "../../components/MessageButton";
+import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "../../components/ui/pagination";
 
 const MyBookings = () => {
-    const { studentBookings, getStudentBookings, isGettingStudentBookings } = useBookingStore();
+    const { studentBookings, getStudentBookings, isGettingStudentBookings, studentBookingsPagination } = useBookingStore();
     const [filterTabs, setFilterTabs] = useState("all");
 
     useEffect(() => {
@@ -178,6 +179,47 @@ const MyBookings = () => {
                     )}
                 </div>
             </Tabs>
+
+            {studentBookingsPagination && studentBookingsPagination.last_page > 1 && (
+                <Pagination className="mt-8">
+                    <PaginationContent>
+                        <PaginationItem>
+                            <PaginationPrevious
+                                size={"lg"}
+                                onClick={() => {
+                                    if (studentBookingsPagination.current_page > 1) {
+                                        getStudentBookings(studentBookingsPagination.current_page - 1);
+                                    }
+                                }}
+                                className={`${studentBookingsPagination.current_page === 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}`}
+                            />
+                        </PaginationItem>
+                        {Array.from({ length: studentBookingsPagination.last_page }).map((_, i) => (
+                            <PaginationItem key={i}>
+                                <PaginationLink
+                                    size={"lg"}
+                                    onClick={() => getStudentBookings(i + 1)}
+                                    isActive={studentBookingsPagination.current_page === i + 1}
+                                    className="cursor-pointer"
+                                >
+                                    {i + 1}
+                                </PaginationLink>
+                            </PaginationItem>
+                        ))}
+                        <PaginationItem>
+                            <PaginationNext
+                                size={"lg"}
+                                onClick={() => {
+                                    if (studentBookingsPagination.current_page < studentBookingsPagination.last_page) {
+                                        getStudentBookings(studentBookingsPagination.current_page + 1);
+                                    }
+                                }}
+                                className={`${studentBookingsPagination.current_page === studentBookingsPagination.last_page ? 'pointer-events-none opacity-50' : 'cursor-pointer'}`}
+                            />
+                        </PaginationItem>
+                    </PaginationContent>
+                </Pagination>
+            )}
         </div>
     );
 };

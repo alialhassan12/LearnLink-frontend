@@ -9,7 +9,13 @@ interface CourseEnrollmentState{
 
     enrollments:Enrollment[];
     isGettingEnrollments:boolean;
-    getEnrollments:()=>Promise<void>;
+    enrollmentsPagination:{
+        current_page:number;
+        last_page:number;
+        total:number;
+        per_page:number;
+    } | null;
+    getEnrollments:(page?:number)=>Promise<void>;
 
     isEnrolling:boolean;
     enroll:(courseId:number)=>Promise<void>;
@@ -28,11 +34,15 @@ export const useCourseEnrollmentStore=create<CourseEnrollmentState>((set)=>({
     },
     isGettingEnrollments:false,
     enrollments:[],
-    getEnrollments:async()=>{
+    enrollmentsPagination:null,
+    getEnrollments:async(page=1)=>{
         set({isGettingEnrollments:true});
         try{
-            const response=await axiosInstance.get('/courses/enrolled-courses');
-            set({enrollments:response.data.enrollments});
+            const response=await axiosInstance.get(`/courses/enrolled-courses?page=${page}`);
+            set({
+                enrollments:response.data.enrollments.data,
+                enrollmentsPagination:response.data.pagination
+            });
             console.log("enrollments: ",response.data.enrollments);
         }catch(error:any){
             console.log("Error getting enrolled courses:",error);

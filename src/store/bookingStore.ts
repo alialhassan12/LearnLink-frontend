@@ -17,11 +17,20 @@ interface BookingStore{
         from:number;
         to:number;
     } | null;
+    studentBookingsPagination:{
+        current_page:number;
+        last_page:number;
+        total:number;
+        per_page:number;
+        has_more:boolean;
+        from:number;
+        to:number;
+    } | null;
     getTeacherBookings:(page?:number)=>Promise<void>;
     createBooking:(booking:Booking)=>Promise<void>;
     isCreatingBooking:boolean;
     isGettingStudentBookings:boolean;
-    getStudentBookings:()=>Promise<void>;
+    getStudentBookings:(page?:number)=>Promise<void>;
     isRejectingBooking:boolean;
     rejectBooking:(booking_id:number)=>Promise<void>;
     isApprovingBooking:boolean;
@@ -71,12 +80,16 @@ const useBookingStore =create<BookingStore>((set,get)=>({
     },
 
     studentBookings:[],
+    studentBookingsPagination:null,
     isGettingStudentBookings:false,
-    getStudentBookings:async()=>{
+    getStudentBookings:async(page=1)=>{
         set({isGettingStudentBookings:true});
         try{
-            const response=await axiosInstance.get('/bookings/student-bookings');
-            set({studentBookings:response.data.bookings});
+            const response=await axiosInstance.get(`/bookings/student-bookings?page=${page}`);
+            set({
+                studentBookings:response.data.bookings.data,
+                studentBookingsPagination:response.data.pagination
+            });
         }
         catch(error:any){
             toast.error(error.response?.data?.message);

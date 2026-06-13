@@ -22,7 +22,7 @@ export const useStudentStore=create<StudentStore>((set)=>({
         try {
             const response = await axiosInstance.get('/student/profile');
             set({student:response.data.student});
-            set({completedSessionCount:response.data.completedSessions});
+            set({completedSessionCount:response.data.completed_sessions ?? response.data.completedSessions ?? 0});
             console.log(response.data);
         } catch (error:any) {
             console.log(error.response?.data?.message);
