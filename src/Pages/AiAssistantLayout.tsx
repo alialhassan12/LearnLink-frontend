@@ -5,7 +5,7 @@ import useAuthStore from "../store/authStore";
 import { Button } from "../components/ui/button";
 import { Skeleton } from "../components/ui/skeleton";
 import { Avatar, AvatarFallback, AvatarImage } from "../components/ui/avatar";
-import { Sheet, SheetContent, SheetTrigger } from "../components/ui/sheet";
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "../components/ui/sheet";
 import {
     Sparkles, 
     Send, 
@@ -500,17 +500,21 @@ const AiAssistantLayout = () => {
                         <div className="md:hidden">
                             <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
                                 <SheetTrigger asChild>
-                                <Button 
-                                    id="ai-assistant-sidebar-toggle"
-                                    variant="ghost" 
-                                    size="icon" 
-                                    className="h-9 w-9 cursor-pointer"
-                                >
-                                    <Menu className="h-5 w-5" />
-                                </Button>
+                                    <Button 
+                                        id="ai-assistant-sidebar-toggle"
+                                        variant="ghost" 
+                                        size="icon" 
+                                        className="h-9 w-9 cursor-pointer"
+                                    >
+                                        <Menu className="h-5 w-5" />
+                                    </Button>
                                 </SheetTrigger>
-                                <SheetContent side="left" className="p-0 w-80 h-full border-r-0">
-                                {renderSidebar()}
+                                <SheetContent side="left" className="p-0 w-80 h-full border-r-0" >
+                                    <SheetHeader>
+                                        <SheetTitle></SheetTitle>
+                                        <SheetDescription></SheetDescription>
+                                    </SheetHeader>
+                                    {renderSidebar()}
                                 </SheetContent>
                             </Sheet>
                         </div>

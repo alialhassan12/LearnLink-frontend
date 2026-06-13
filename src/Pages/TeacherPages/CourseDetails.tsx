@@ -28,7 +28,7 @@ const CourseDetails = () => {
     const cards=[
         {
             title:"Total Enrollments",
-            value:courseWithMaterials?.enrollments?.length,
+            value:courseWithMaterials?.enrollments_count,
             icon:Users
         },
     ];

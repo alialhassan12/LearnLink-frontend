@@ -9,30 +9,31 @@ import { Spinner } from "../../components/ui/spinner";
 import MessageButton from "../../components/MessageButton";
 import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
 import { toast } from "sonner";
+import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "../../components/ui/pagination";
 
 const Bookings = () => {
-    const {teacherBookings,isGettingTeacherBookings,getTeacherBookings,isRejectingBooking,rejectBooking,approveBooking,isApprovingBooking,max_live_sessions,current_live_sessions}=useBookingStore();
+    const {teacherBookings,isGettingTeacherBookings,getTeacherBookings,teacherBookingsPagination,isRejectingBooking,rejectBooking,approveBooking,isApprovingBooking,max_live_sessions,current_live_sessions}=useBookingStore();
     const [selectedBooking,setSelectedBooking]=useState<number | null>(null);
-    const pendingBookings=teacherBookings.filter((booking)=>booking.status==="pending");
-    const approvedBookings=teacherBookings.filter((booking)=>booking.status==="approved");
-    const rejectedBookings=teacherBookings.filter((booking)=>booking.status==="rejected");
-    const cards=[
-        {
-            title:"pending bookings",
-            value:pendingBookings.length,
-            icon:ClipboardClock
-        },
-        {
-            title:"approved bookings",
-            value:approvedBookings.length,
-            icon:ClipboardCheck
-        },
-        {
-            title:"rejected bookings",
-            value:rejectedBookings.length,
-            icon:ClipboardX
-        }
-    ];
+    // const pendingBookings=teacherBookings.filter((booking)=>booking.status==="pending");
+    // const approvedBookings=teacherBookings.filter((booking)=>booking.status==="approved");
+    // const rejectedBookings=teacherBookings.filter((booking)=>booking.status==="rejected");
+    // const cards=[
+    //     {
+    //         title:"pending bookings",
+    //         value:pendingBookings.length,
+    //         icon:ClipboardClock
+    //     },
+    //     {
+    //         title:"approved bookings",
+    //         value:approvedBookings.length,
+    //         icon:ClipboardCheck
+    //     },
+    //     {
+    //         title:"rejected bookings",
+    //         value:rejectedBookings.length,
+    //         icon:ClipboardX
+    //     }
+    // ];
     const [filterTabs,setFilterTabs]=useState("all");
     const filteredBookings = teacherBookings.filter((booking)=>filterTabs==="all"|| booking.status === filterTabs);
 
@@ -60,7 +61,7 @@ const Bookings = () => {
     return (
         <div>
             {/* summary cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+            {/* <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
                 {cards.map((card, index) => (
                     <div key={index} className="bg-background border border-border/60 rounded-xl p-6 text-left hover:border-primary transition-all duration-200 shadow-sm group">
                         <div className="flex items-center justify-between mb-4">
@@ -72,7 +73,7 @@ const Bookings = () => {
                         <div className="text-3xl font-bold">{card.value}</div>
                     </div>
                 ))}
-            </div>
+            </div> */}
             {/* Live Sessions Tracker */}
             <div className="flex flex-col items-center gap-1 text-foreground mb-4">
                 <div className="flex items-center gap-2">
@@ -94,8 +95,12 @@ const Bookings = () => {
             </div>
             <Separator className="my-4"/>
             {/* filter section */}
-            <Tabs defaultValue={filterTabs} onValueChange={(value)=>setFilterTabs(value)}>
-                <TabsList>
+            <Tabs 
+                defaultValue={filterTabs} 
+                onValueChange={(value)=>setFilterTabs(value)}
+                className='w-full'
+            >
+                <TabsList className='w-full'>
                     <TabsTrigger value="all">All</TabsTrigger>
                     <TabsTrigger value="pending">Pending</TabsTrigger>
                     <TabsTrigger value="approved">Approved</TabsTrigger>
@@ -103,7 +108,7 @@ const Bookings = () => {
                 </TabsList>
                 {/* booking list */}
                 <div className="grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-3">
-                    {filteredBookings.length > 0 && (
+                    {filteredBookings && filteredBookings.length > 0 && (
                         filteredBookings.map((booking) => {
                             return (
                                 <div key={booking.id} className=" flex flex-col gap-2  bg-background border border-border/60 rounded-xl hover:shadow-md transition-all duration-200 p-4 group">
@@ -216,14 +221,53 @@ const Bookings = () => {
                             );
                         })
                     )}
+                    {filteredBookings.length===0 && (
+                        <div className=" text-center py-12 border border-dashed border-border rounded-xl col-span-full mt-2">
+                            <p className="text-muted-foreground font-medium">No bookings found for this filter.</p>
+                        </div>
+                    )}
                     {
-                        filteredBookings.length===0 &&
+                        teacherBookings.length===0 &&
                         <div className=" text-center py-12 border border-dashed border-border rounded-xl col-span-full">
                             <p className="text-muted-foreground font-medium">No bookings found for this filter.</p>
                         </div>
                     }
                 </div>
             </Tabs>
+            <Pagination className="my-2">
+                <PaginationContent>
+                    <PaginationItem>
+                        <PaginationPrevious 
+                            size="lg"
+                            onClick={()=>{
+                                if(teacherBookingsPagination?.current_page>1){
+                                    getTeacherBookings(teacherBookingsPagination?.current_page - 1)
+                                }
+                            }}
+                            className={`${teacherBookingsPagination?.current_page===1 ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}`}
+                        />
+                    </PaginationItem>
+                    {Array.from({length:teacherBookingsPagination?.last_page}, (_, i)=>i+1).map((page)=>( 
+                        <PaginationItem 
+                            key={page}
+                            className={`px-3 py-1 rounded-full ${teacherBookingsPagination?.current_page===page ? 'bg-bg-2' : ''}`}
+                        >
+                            {page}
+                        </PaginationItem>
+                    ))}
+                    <PaginationItem>
+                        <PaginationNext 
+                            size="lg"
+                            onClick={()=>{
+                                if(teacherBookingsPagination?.has_more){
+                                    getTeacherBookings(teacherBookingsPagination?.current_page + 1)
+                                }
+                            }}
+                            className={`${!teacherBookingsPagination?.has_more ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}`}
+                        />
+                    </PaginationItem>
+                </PaginationContent>
+            </Pagination>
         </div>
     );
 };
@@ -264,7 +308,7 @@ const SkeletonBookingState = () => {
     return (
         <div className="animate-pulse space-y-6">
             {/* Skeleton for cards */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {/* <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {[...Array(3)].map((_, i) => (
                     <div key={i} className="bg-background border border-border/60 rounded-xl p-6 space-y-4">
                         <div className="flex items-center justify-between">
@@ -274,9 +318,9 @@ const SkeletonBookingState = () => {
                         <div className="w-16 h-8 bg-secondary rounded"></div>
                     </div>
                 ))}
-            </div>
+            </div> */}
             
-            <div className="h-10 w-64 bg-secondary rounded-md"></div>
+            <div className="h-10 w-full bg-secondary rounded-md"></div>
 
             {/* Skeleton for bookings grid */}
             <div className="grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-3">

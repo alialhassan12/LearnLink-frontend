@@ -203,12 +203,12 @@ const SkeletonBookingState = () => (
 );
 
 const EmptyBookingState = () => (
-    <div className="max-w-7xl mx-auto px-4 py-20 text-center">
+    <div className="max-w-7xl mx-auto px-4 py-20 text-center flex flex-col items-center justify-center">
         <div className="bg-primary/5 w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-8 ring-8 ring-primary/[0.02]">
             <Calendar className="w-12 h-12 text-primary" />
         </div>
         <h2 className="text-4xl font-black text-foreground mb-4">Your Schedule is Empty</h2>
-        <p className="text-muted-foreground text-lg max-w-md mx-auto mb-10">
+        <p className="text-muted-foreground text-lg max-w-md mx-auto mb-10 ">
             Start your learning journey today! Browse our marketplace and find the perfect teacher for your goals.
         </p>
         <Button size="lg" className="h-14 px-10 rounded-2xl text-lg font-bold shadow-xl shadow-primary/20 hover:shadow-2xl hover:shadow-primary/30 transition-all duration-300">

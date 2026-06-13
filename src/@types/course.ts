@@ -22,4 +22,5 @@ export interface Course{
     teacher?:Teacher,
     sections?:CourseSection[],
     enrollments?:Enrollment[],
+    enrollments_count?:number,
 }
