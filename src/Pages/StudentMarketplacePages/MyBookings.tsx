@@ -30,7 +30,7 @@ const MyBookings = () => {
             bg: "bg-blue-100"
         },
         {
-            title: "Upcoming Sessions",
+            title: "Approved",
             value: studentBookings.filter(b => b.status === "approved").length,
             icon: CalendarCheck,
             color: "text-emerald-600",

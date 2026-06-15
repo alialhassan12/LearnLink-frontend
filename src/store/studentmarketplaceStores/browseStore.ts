@@ -90,7 +90,7 @@ const useBrowseStore=create<BrowseStoreState>((set,get)=>({
 
     teacher:null,
     isGettingTeacherById:false,
-    getTeacherById:async (id:number)=>{
+    getTeacherById:async (id:number)=>{ 
         set({isGettingTeacherById:true});
         try {
             const response = await axiosInstance.get(`/teacher/${id}`);
