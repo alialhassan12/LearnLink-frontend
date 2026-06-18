@@ -21,6 +21,7 @@ import CourseDetails from "./TeacherPages/CourseDetails";
 import EditCourse from "./TeacherPages/EditCourse";
 import { Button } from "../components/ui/button";
 import AiAssistantLayout from "./AiAssistantLayout";
+import Calendar from "./TeacherPages/Calendar";
 
 const TeacherDashboard=()=>{
     const {authUser}=useAuthStore();
@@ -67,6 +68,7 @@ const TeacherDashboard=()=>{
                     <Routes>
                         <Route path="/" element={<Dashboard/>}/>
                         <Route path="/bookings" element={<Bookings/>}/>
+                        <Route path="/calendar" element={<Calendar/>}></Route>
                         <Route path="/my-courses" >
                             <Route index element={<MyCourses/>}/>
                             <Route path="create" element={<CreateCourse/>}/>

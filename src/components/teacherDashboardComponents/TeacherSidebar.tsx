@@ -49,7 +49,7 @@ const TeacherSidebar = () => {
             label:"Calendar",
             path:"/dashboard/calendar",
             icon:Calendar,
-            // onClick:()=>navigate("/dashboard/calendar")
+            onClick:()=>navigate("/dashboard/calendar")
         },
         {
             label:"Earnings",
