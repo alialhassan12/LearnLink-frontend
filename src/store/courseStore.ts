@@ -3,7 +3,6 @@ import type { CoursePublish } from "../@types/coursePublish";
 import axiosInstance from "../lib/axios";
 import { toast } from "sonner";
 import type { Course } from "../@types/course";
-import type { responseEncoding } from "axios";
 
 interface CourseFilter{
     category_id?:number;

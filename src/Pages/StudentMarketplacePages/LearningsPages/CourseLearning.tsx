@@ -316,7 +316,7 @@ const CourseLearning = () => {
                         <TabsContent value="instructor" className="mt-0">
                             <div className="bg-card border border-border p-6 rounded-xl shadow-sm flex flex-col sm:flex-row items-start gap-4">
                                 <Avatar className="h-16 w-16 border-2 border-border shadow-sm">
-                                    <AvatarImage src={courseWithMaterials?.teacher?.user?.avatar || undefined} />
+                                    <AvatarImage src={courseWithMaterials?.teacher?.user?.avatar_url || undefined} />
                                     <AvatarFallback className="text-lg font-bold">
                                         {courseWithMaterials?.teacher?.user?.name?.charAt(0).toUpperCase() || "I"}
                                     </AvatarFallback>

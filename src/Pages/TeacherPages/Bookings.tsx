@@ -114,7 +114,7 @@ const Bookings = () => {
                                 <div key={booking.id} className=" flex flex-col gap-2  bg-background border border-border/60 rounded-xl hover:shadow-md transition-all duration-200 p-4 group">
                                     <div className="flex items-center gap-4 w-full md:w-auto">
                                         <Avatar className="h-12 w-12 border-2 border-primary/10">
-                                            <AvatarImage src={booking.student.user?.avatar} />
+                                            <AvatarImage src={booking.student.user?.avatar_url} />
                                             <AvatarFallback className="bg-primary/5 text-primary font-semibold">
                                                 {booking.student.user.name[0].toUpperCase()}
                                             </AvatarFallback>

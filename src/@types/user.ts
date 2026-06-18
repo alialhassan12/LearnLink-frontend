@@ -5,7 +5,8 @@ export interface user{
     name:string, 
     email:string, 
     role:string, 
-    avatar:string |null
+    avatar?:string |null
+    avatar_url?:string
     subscription?:Subscription;
     status?:string;
     created_at?:string;

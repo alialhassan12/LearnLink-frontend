@@ -52,7 +52,7 @@ const TeacherDashboard=()=>{
                             <div className="flex items-center gap-2">
                                 <Separator orientation="vertical" />
                                 <Avatar className="cursor-pointer" onClick={()=>navigate("/dashboard/profile")}>
-                                    <AvatarImage src={authUser?.avatar} />
+                                    <AvatarImage src={authUser?.avatar_url} />
                                     <AvatarFallback>{authUser?.name?.charAt(0).toUpperCase()}</AvatarFallback>
                                 </Avatar>
                                 <div className="flex flex-col">

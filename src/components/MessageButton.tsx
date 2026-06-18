@@ -45,7 +45,7 @@ const MessageButton =({recieverUser,className,children,variant,disabled}:Message
                         id:authUser!.id,
                         name:authUser!.name,
                         email:authUser!.email,
-                        avatar:authUser!.avatar,
+                        avatar_url:authUser!.avatar_url,
                         role:authUser!.role as "teacher" | "student"
                     }
                 },
@@ -56,7 +56,7 @@ const MessageButton =({recieverUser,className,children,variant,disabled}:Message
                         id:recieverUser.id,
                         name:recieverUser.name,
                         email:recieverUser.email,
-                        avatar:recieverUser.avatar,
+                        avatar_url:recieverUser.avatar_url,
                         role:recieverUser.role as "teacher" | "student"
                     }
                 }

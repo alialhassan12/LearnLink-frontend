@@ -82,7 +82,7 @@ const MySessions = () => {
                                     {/* Student Avatar & Name */}
                                     <div className="flex items-center gap-4 w-full md:w-auto">
                                         <Avatar className="h-12 w-12 border-2 border-primary/10">
-                                            <AvatarImage src={session.student?.user?.avatar} />
+                                            <AvatarImage src={session.student?.user?.avatar_url} />
                                             <AvatarFallback className="bg-primary/5 text-primary font-semibold">
                                                 {session.student?.user?.name ? session.student.user.name[0].toUpperCase() : 'S'}
                                             </AvatarFallback>

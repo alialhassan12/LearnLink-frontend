@@ -190,7 +190,7 @@ const EditCourse=()=>{
                         >
                             {
                                 formData?.thumbnail ? (
-                                    <img src={formData?.thumbnail instanceof File ? URL.createObjectURL(formData?.thumbnail) : formData?.thumbnail} alt="" className="w-full h-full object-cover" />
+                                    <img src={formData?.thumbnail instanceof File ? URL.createObjectURL(formData?.thumbnail) : courseWithMaterials?.thumbnail_url} alt="" className="w-full h-full object-cover" />
                                 ) : (
                                     <Image className="w-12 h-12 text-muted-foreground" />
                                 )

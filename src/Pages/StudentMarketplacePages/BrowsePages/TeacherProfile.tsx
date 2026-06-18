@@ -187,7 +187,7 @@ const TeacherProfile = () => {
             <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
                 <Avatar className="h-32 w-32 md:h-48 md:w-48 border-4 border-card shadow-xl shrink-0">
                     <AvatarFallback className="text-4xl md:text-6xl">{teacher?.user?.name.charAt(0).toUpperCase()}</AvatarFallback>
-                    <AvatarImage src={teacher?.user?.avatar} className="object-cover" />
+                    <AvatarImage src={teacher?.user?.avatar_url} className="object-cover" />
                 </Avatar>
                 <div className="flex flex-col text-center md:text-left md:pt-4">
                     <h1 className="text-3xl md:text-4xl font-extrabold text-text-strong">{teacher?.user?.name}</h1>

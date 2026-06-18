@@ -203,7 +203,7 @@ const MessagesLayout=()=>{
                                     }`}
                                 >
                                     <Avatar className="h-12 w-12 border-2 border-background shadow-sm">
-                                        <AvatarImage src={isDirect ? otherParticipant?.user?.avatar : undefined} />
+                                        <AvatarImage src={isDirect ? otherParticipant?.user?.avatar_url : undefined} />
                                         <AvatarFallback className={isActive ? 'bg-primary-foreground/20 text-primary-foreground' : 'bg-primary/10 text-primary'}>
                                             {isDirect ? otherParticipant?.user?.name?.charAt(0) : conversation.group_name?.charAt(0)}
                                         </AvatarFallback>
@@ -266,7 +266,7 @@ const MessagesLayout=()=>{
                                     return (
                                         <>
                                             <Avatar className="h-10 w-10 border shadow-sm">
-                                                <AvatarImage src={isDirect ? otherParticipant?.user?.avatar : undefined} />
+                                                <AvatarImage src={isDirect ? otherParticipant?.user?.avatar_url : undefined} />
                                                 <AvatarFallback className="bg-primary/10 text-primary">
                                                     {isDirect ? otherParticipant?.user?.name?.charAt(0) : activeConversation.group_name?.charAt(0)}
                                                 </AvatarFallback>
@@ -308,7 +308,7 @@ const MessagesLayout=()=>{
                                                             <AvatarFallback className={isMyMessage ? "bg-primary/20 text-primary text-xs" : "bg-card border border-border text-xs"}>
                                                                 {isMyMessage ? "You" : message.sender?.name?.charAt(0) ?? "U"}
                                                             </AvatarFallback>
-                                                            <AvatarImage src={message.sender?.avatar}/>
+                                                            <AvatarImage src={message.sender?.avatar_url}/>
                                                         </Avatar>
                                                         <div className={`flex flex-col gap-1 ${isMyMessage ? 'items-end' : 'items-start'}`}>
                                                             <div className={`${message.file_url?'flex':'hidden'}`}>
@@ -370,7 +370,7 @@ const MessagesLayout=()=>{
                                                         <AvatarFallback className="bg-primary/20 text-primary text-xs">
                                                             You
                                                         </AvatarFallback>
-                                                        <AvatarImage src={authUser?.avatar}/>
+                                                        <AvatarImage src={authUser?.avatar_url}/>
                                                     </Avatar>
                                                     <div className="flex flex-col gap-1 items-end">
                                                         <div className="px-4 py-2.5 rounded-2xl shadow-sm text-sm leading-relaxed bg-primary text-primary-foreground rounded-br-sm">
@@ -390,7 +390,7 @@ const MessagesLayout=()=>{
                                                         <AvatarFallback className="bg-primary/20 text-primary text-xs">
                                                             You
                                                         </AvatarFallback>
-                                                        <AvatarImage src={authUser?.avatar}/>
+                                                        <AvatarImage src={authUser?.avatar_url}/>
                                                     </Avatar>
                                                     <div className="flex flex-col gap-1 items-end">
                                                         <div className="px-4 py-2.5 rounded-2xl shadow-sm text-sm leading-relaxed bg-primary text-primary-foreground rounded-br-sm">
@@ -413,7 +413,7 @@ const MessagesLayout=()=>{
                                                         <AvatarFallback className="bg-primary/20 text-primary text-xs">
                                                             You
                                                         </AvatarFallback>
-                                                        <AvatarImage src={authUser?.avatar}/>
+                                                        <AvatarImage src={authUser?.avatar_url}/>
                                                     </Avatar>
                                                     <div className="flex flex-col gap-1 items-end">
                                                         <div className="px-4 py-2.5 rounded-2xl shadow-sm text-sm leading-relaxed bg-primary text-primary-foreground rounded-br-sm flex items-center gap-2">
@@ -438,7 +438,7 @@ const MessagesLayout=()=>{
                                                         <AvatarFallback className="bg-primary/20 text-primary text-xs">
                                                             You
                                                         </AvatarFallback>
-                                                        <AvatarImage src={authUser?.avatar}/>
+                                                        <AvatarImage src={authUser?.avatar_url}/>
                                                     </Avatar>
                                                     <div className="flex flex-col gap-1 items-end">
                                                         <div className="px-4 py-2.5 rounded-2xl shadow-sm text-sm leading-relaxed bg-primary text-primary-foreground rounded-br-sm flex items-center gap-2">
@@ -459,7 +459,7 @@ const MessagesLayout=()=>{
                                                         <AvatarFallback className="bg-primary/20 text-primary text-xs">
                                                             You
                                                         </AvatarFallback>
-                                                        <AvatarImage src={authUser?.avatar}/>
+                                                        <AvatarImage src={authUser?.avatar_url}/>
                                                     </Avatar>
                                                     <div className="flex flex-col gap-1 items-end">
                                                         <div className="px-4 py-2.5 rounded-2xl shadow-sm text-sm leading-relaxed bg-primary text-primary-foreground rounded-br-sm flex items-center gap-2">

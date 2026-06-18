@@ -111,7 +111,7 @@ const MyBookings = () => {
                                     <div className="flex items-center gap-5">
                                         <div className="relative">
                                             <Avatar className="h-16 w-16 border-2 border-background ring-2 ring-primary/10 shadow-sm">
-                                                <AvatarImage src={booking.teacher?.user?.avatar} />
+                                                <AvatarImage src={booking.teacher?.user?.avatar_url} />
                                                 <AvatarFallback className="bg-primary/5 text-primary text-xl font-bold">
                                                     {booking.teacher?.user.name?.[0].toUpperCase()}
                                                 </AvatarFallback>

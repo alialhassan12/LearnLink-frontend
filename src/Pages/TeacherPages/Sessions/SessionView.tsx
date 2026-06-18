@@ -274,14 +274,14 @@ const SessionView =()=>{
                         <p className="text-text-strong text-sm">Participants</p>
                         <div className="flex flex-row items-center gap-2">
                             <Avatar>
-                                <AvatarImage src={authUser?.avatar}/>
+                                <AvatarImage src={authUser?.avatar_url}/>
                                 <AvatarFallback>{authUser?.name.slice(0,2).toUpperCase()}</AvatarFallback>
                             </Avatar>
                             <p className="text-primary font-bold text-sm">YOU (HOST)</p>
                         </div>
                         <div className="flex flex-row items-center gap-2">
                             <Avatar>
-                                <AvatarImage src={teacherSelectedSession?.student?.user?.avatar}/>
+                                <AvatarImage src={teacherSelectedSession?.student?.user?.avatar_url}/>
                                 <AvatarFallback>{teacherSelectedSession?.student?.user?.name.slice(0,2).toUpperCase()}</AvatarFallback>
                             </Avatar>
                             <p className="text-text-strong text-sm">{teacherSelectedSession?.student?.user?.name}</p>

@@ -11,6 +11,7 @@ export interface Course{
     category_id:number,
     description:string,
     thumbnail:string | File,
+    thumbnail_url?:string,
     language:string,
     price:number,
     status?:string,

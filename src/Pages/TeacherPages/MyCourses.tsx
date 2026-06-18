@@ -88,7 +88,7 @@ const MyCourses=()=>{
                                     >
                                         {/* thumbnail section */}
                                         <div className="aspect-video w-full overflow-hidden">
-                                            <img src={course.thumbnail instanceof File?URL.createObjectURL(course.thumbnail):course.thumbnail} className="w-full h-full object-cover" />
+                                            <img src={course.thumbnail_url} className="w-full h-full object-cover" />
                                         </div>
                                         {/* course title and description section */}
                                         <div className="flex flex-col gap-3 p-4">

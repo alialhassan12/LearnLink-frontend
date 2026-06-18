@@ -91,7 +91,7 @@ const Profile=()=>{
                 {/* user avatar */}
                 <div className='flex-shrink-0'>
                     <Avatar className='w-24 h-24 border-2 border-primary'>
-                        <AvatarImage src={teacher?.user?.avatar} alt={teacher?.user?.name} />
+                        <AvatarImage src={teacher?.user?.avatar_url} alt={teacher?.user?.name} />
                         <AvatarFallback className='bg-primary text-white text-4xl'>
                             {teacher?.user?.name?.charAt(0)?.toUpperCase()}
                         </AvatarFallback>

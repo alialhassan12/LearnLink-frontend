@@ -36,7 +36,7 @@ const AdminDashboard=()=>{
                             <div className="flex items-center gap-2">
                                 <Separator orientation="vertical" />
                                 <Avatar className="cursor-pointer" >
-                                    <AvatarImage src={authUser?.avatar} />
+                                    <AvatarImage src={authUser?.avatar_url} />
                                     <AvatarFallback>{authUser?.name?.charAt(0).toUpperCase()}</AvatarFallback>
                                 </Avatar>
                                 <div className="flex flex-col">

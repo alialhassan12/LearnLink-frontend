@@ -117,7 +117,7 @@ const CreateCourseStep3=()=>{
                                     <AvatarFallback>
                                         {authUser?.name[0].toUpperCase()}
                                     </AvatarFallback>
-                                    <AvatarImage src={authUser?.avatar} className="w-full object-cover object-center "/>
+                                    <AvatarImage src={authUser?.avatar_url} className="w-full object-cover object-center "/>
                                 </Avatar>
                                 <div className="flex flex-row justify-between items-center w-full">
                                     <p className="text-text-strong font-semibold ">

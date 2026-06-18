@@ -30,7 +30,7 @@ const EditProfile=()=>{
     }>({
         name:teacher?.user?.name || '',
         headline:teacher?.headline || '',
-        avatar:teacher?.user?.avatar || new File([],''),
+        avatar:teacher?.user?.avatar_url || new File([],''),
         location:teacher?.location || '',
         bio:teacher?.bio || '',
         subjects:teacher?.subjects || [],
@@ -133,7 +133,7 @@ const EditProfile=()=>{
             setAuthUser({
                 ...authUser!,
                 name:updatedTeacher.name,
-                avatar:updatedTeacher.avatar,
+                avatar_url:updatedTeacher.user.avatar_url,
             });
 
             navigator("/dashboard/profile");

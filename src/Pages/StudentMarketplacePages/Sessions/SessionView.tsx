@@ -124,7 +124,7 @@ const SessionView = () => {
                             {/* User */}
                             <div className="flex items-center gap-4 p-3 rounded-2xl bg-primary/5 border border-primary/10">
                                 <Avatar className="h-12 w-12 border-2 border-primary/20">
-                                    <AvatarImage src={authUser?.avatar}/>
+                                    <AvatarImage src={authUser?.avatar_url}/>
                                     <AvatarFallback className="bg-primary/10 text-primary font-bold">
                                         {authUser?.name.slice(0,2).toUpperCase()}
                                     </AvatarFallback>
@@ -138,7 +138,7 @@ const SessionView = () => {
                             {/* Teacher */}
                             <div className="flex items-center gap-4 p-3 rounded-2xl border border-border/50 hover:bg-muted/30 transition-colors">
                                 <Avatar className="h-12 w-12 border-2 border-border/20">
-                                    <AvatarImage src={studentSelectedSession?.teacher?.user?.avatar}/>
+                                    <AvatarImage src={studentSelectedSession?.teacher?.user?.avatar_url}/>
                                     <AvatarFallback className="bg-muted text-text-weak font-bold">
                                         {studentSelectedSession?.teacher?.user?.name.slice(0,2).toUpperCase()}
                                     </AvatarFallback>

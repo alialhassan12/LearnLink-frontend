@@ -22,7 +22,7 @@ const CoursePreview = ({course,open,setOpen}:{course:Course,open:boolean,setOpen
                 <div className="flex flex-col rounded-xl overflow-hidden border border-border">
                     {/* course image */}
                     <div className="w-full bg-bg-1 overflow-hidden">
-                        <img src={course?.thumbnail instanceof File?URL.createObjectURL(course?.thumbnail):course?.thumbnail} alt={course?.title} className="object-cover"/>
+                        <img src={course?.thumbnail_url} alt={course?.title} className="object-cover"/>
                     </div>
                     {/* course info */}
                     <div className="flex flex-col gap-2 p-4">
@@ -31,7 +31,7 @@ const CoursePreview = ({course,open,setOpen}:{course:Course,open:boolean,setOpen
                         <div className="flex items-center gap-2">
                             <Avatar>
                                 <AvatarFallback>{course?.teacher?.user?.name?.charAt(0)}</AvatarFallback>
-                                <AvatarImage src={course?.teacher?.user?.avatar}/>
+                                <AvatarImage src={course?.teacher?.user?.avatar_url}/>
                             </Avatar>
                             <span className="text-sm text-text-strong">{course?.teacher?.user?.name}</span>
                         </div>

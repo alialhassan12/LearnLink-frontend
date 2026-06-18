@@ -146,7 +146,7 @@ const Sessions = ()=>{
                             <div className="absolute inset-0 bg-primary/20 rounded-full blur-2xl group-hover:blur-3xl transition-all duration-500 scale-110" />
                             <div className="relative w-48 h-48 md:w-64 md:h-64 lg:w-72 lg:h-72 rounded-full border-4 border-primary/20 p-2 bg-background overflow-hidden shadow-2xl">
                                 <img
-                                    src={nextSession?.teacher?.user?.avatar}
+                                    src={nextSession?.teacher?.user?.avatar_url}
                                     alt={nextSession?.teacher?.user?.name}
                                     className="w-full h-full rounded-full object-cover transition-transform duration-500 group-hover:scale-110"
                                 />
@@ -175,7 +175,7 @@ const Sessions = ()=>{
                                         <div className="flex flex-col sm:flex-row sm:items-center gap-6">
                                             <div className="flex items-center gap-4">
                                                 <Avatar className="w-14 h-14 border-2 border-primary/10 ring-2 ring-background ring-offset-2 ring-offset-primary/5">
-                                                    <AvatarImage src={session.teacher?.user?.avatar} />
+                                                    <AvatarImage src={session.teacher?.user?.avatar_url} />
                                                     <AvatarFallback className="bg-primary/5 text-primary font-bold text-xl">
                                                         {session.teacher?.user?.name ? session.teacher.user.name[0] : 'T'}
                                                     </AvatarFallback>

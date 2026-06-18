@@ -115,7 +115,7 @@ const MyLearnings = () => {
                 {filteredEnrollments.map((enrollment) => (
                     <div key={enrollment.id} className="flex flex-col justify-start items-center bg-card border border-border rounded-lg overflow-hidden group hover:shadow-xl transition-all duration-300 hover:border-primary/20 hover:-translate-y-1">
                         <img
-                            src={enrollment.course?.thumbnail instanceof File ? URL.createObjectURL(enrollment.course.thumbnail) : (enrollment.course?.thumbnail || '')}
+                            src={enrollment.course?.thumbnail_url || ''}
                             className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
                             alt={enrollment.course?.title || "Course thumbnail"}
                         />
@@ -123,7 +123,7 @@ const MyLearnings = () => {
                             {/* teacher */}
                             <div className="flex items-center gap-2">
                                 <Avatar>
-                                    <AvatarImage src={enrollment.course?.teacher?.user?.avatar || undefined} />
+                                    <AvatarImage src={enrollment.course?.teacher?.user?.avatar_url || undefined} />
                                     <AvatarFallback>{enrollment.course?.teacher?.user?.name?.charAt(0).toUpperCase() || 'C'}</AvatarFallback>
                                 </Avatar>
                                 <p className="text-text-weak">Dr. {enrollment.course?.teacher?.user?.name || 'Instructor'}</p>

@@ -15,7 +15,13 @@ const CourseCard=({course}:{course:Course})=>{
         <div className="flex flex-col rounded-xl overflow-hidden border border-border hover:shadow-lg hover:-translate-y-[4px] hover:shadow-primary/10 hover:border-primary/30 hover:duration-300 transition-all">
             {/* course image */}
             <div className="w-full bg-bg-1 overflow-hidden">
-                <img src={course.thumbnail instanceof File? URL.createObjectURL(course.thumbnail):course.thumbnail} alt={course.title} className="object-cover"/>
+                {course.thumbnail_url?(
+                    <img src={course.thumbnail_url} className="object-cover"/>
+                ):(
+                    <div className="flex items-center justify-center h-full text-text-weak">
+                        No Thumbnail
+                    </div>
+                )}
             </div>
             {/* course info */}
             <div className="flex flex-col gap-2 p-4">
@@ -24,7 +30,7 @@ const CourseCard=({course}:{course:Course})=>{
                 <div className="flex items-center gap-2">
                     <Avatar>
                         <AvatarFallback>{course.teacher.user.name.charAt(0)}</AvatarFallback>
-                        <AvatarImage src={course.teacher.user.avatar}/>
+                        <AvatarImage src={course.teacher.user.avatar_url}/>
                     </Avatar>
                     <span className="text-sm text-text-strong">{course.teacher.user.name}</span>
                 </div>

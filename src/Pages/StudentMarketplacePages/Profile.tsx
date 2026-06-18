@@ -28,11 +28,18 @@ import { Spinner } from "../../components/ui/spinner";
 
 const Profile = () => {
     const navigate = useNavigate();
-    const { student, isGettingStudent, getStudent, completedSessionCount } = useStudentStore();
-    const { enrolledCoursesIds, enrollments, getEnrollments, isGettingEnrollments } = useCourseEnrollmentStore();
-    const { studentBookings, getStudentBookings, isGettingStudentBookings } = useBookingStore();
+    const { 
+        student, 
+        isGettingStudent,
+        getStudent,
+        completed_sessions_count,
+        upcomming_sessions_count,
+        enrolled_courses_count,
+        upcomming_sessions,
+        enrolled_courses
+    } = useStudentStore();
 
-    const {logout,isLoggingout}=useAuthStore    ();
+    const {logout,isLoggingout}=useAuthStore();
 
     const handleLogout=async()=>{
         const loggedOut=await logout();
@@ -43,18 +50,15 @@ const Profile = () => {
 
     useEffect(() => {
         getStudent();
-        getEnrollments();
-        getStudentBookings();
-    }, [getStudent, getEnrollments, getStudentBookings]);
+    }, []);
 
-    const activeBookingsCount = studentBookings.filter(b => b.status === "approved" || b.status === "pending").length;
 
     const cards = [
         {
             id: 0,
             title: "Sessions Completed",
             icon: CheckCheck,
-            value: completedSessionCount,
+            value: completed_sessions_count,
             bg: "bg-emerald-50 text-emerald-600 dark:bg-emerald-950/30 dark:text-emerald-400",
             iconBg: "bg-emerald-100 dark:bg-emerald-900/50"
         },
@@ -62,7 +66,7 @@ const Profile = () => {
             id: 1,
             title: "Courses Enrolled",
             icon: Album,
-            value: enrolledCoursesIds.length,
+            value: enrolled_courses_count,
             bg: "bg-blue-50 text-blue-600 dark:bg-blue-950/30 dark:text-blue-400",
             iconBg: "bg-blue-100 dark:bg-blue-900/50"
         },
@@ -70,15 +74,13 @@ const Profile = () => {
             id: 2,
             title: "Upcoming Sessions",
             icon: Clock,
-            value: activeBookingsCount,
+            value: upcomming_sessions_count,
             bg: "bg-amber-50 text-amber-600 dark:bg-amber-950/30 dark:text-amber-400",
             iconBg: "bg-amber-100 dark:bg-amber-900/50"
         }
     ];
 
-    const isLoading = isGettingStudent || isGettingEnrollments || isGettingStudentBookings;
-
-    if (isLoading || !student) {
+    if (isGettingStudent || !student) {
         return <StudentProfileSkeleton />
     }
 
@@ -94,7 +96,7 @@ const Profile = () => {
                     {/* Avatar */}
                     <div className="relative">
                         <Avatar className="w-32 h-32 md:w-36 md:h-36 border-4 border-background ring-4 ring-primary/5 shadow-md">
-                            <AvatarImage src={student?.user?.avatar || undefined} />
+                            <AvatarImage src={student?.user?.avatar_url || undefined} />
                             <AvatarFallback className="text-4xl text-primary font-bold">
                                 {student?.user?.name?.[0].toUpperCase()}
                             </AvatarFallback>
@@ -158,7 +160,7 @@ const Profile = () => {
                                 <BookOpen className="w-5 h-5 text-primary" />
                                 Enrolled Courses Progress
                             </h2>
-                            {enrollments.length > 0 && (
+                            {enrolled_courses.length > 0 && (
                                 <Button 
                                     variant="ghost" 
                                     size="sm" 
@@ -171,9 +173,9 @@ const Profile = () => {
                             )}
                         </div>
 
-                        {enrollments.length > 0 ? (
+                        {enrolled_courses.length > 0 ? (
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                {enrollments.slice(0, 2).map((enrollment) => (
+                                {enrolled_courses.slice(0, 2).map((enrollment) => (
                                     <CourseCard key={enrollment?.course_id} course={enrollment?.course}/>
                                 ))}
                             </div>
@@ -205,7 +207,7 @@ const Profile = () => {
                                 <Calendar className="w-5 h-5 text-primary" />
                                 Upcoming Tutoring Sessions
                             </h2>
-                            {studentBookings.length > 0 && (
+                            {upcomming_sessions.length > 0 && (
                                 <Button 
                                     variant="ghost" 
                                     size="sm" 
@@ -218,9 +220,9 @@ const Profile = () => {
                             )}
                         </div>
 
-                        {studentBookings.filter(b => b.status !== 'rejected').length > 0 ? (
+                        {upcomming_sessions.filter(b => b.status !== 'rejected').length > 0 ? (
                             <div className="flex flex-col gap-4">
-                                {studentBookings
+                                {upcomming_sessions
                                     .filter(b => b.status !== 'rejected')
                                     .slice(0, 2)
                                     .map((booking) => (
@@ -233,7 +235,7 @@ const Profile = () => {
                                             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pl-2">
                                                 <div className="flex items-center gap-4">
                                                     <Avatar className="h-12 w-12 border border-border shadow-sm ring-2 ring-primary/5">
-                                                        <AvatarImage src={booking?.teacher?.user?.avatar || undefined} />
+                                                        <AvatarImage src={booking?.teacher?.user?.avatar_url || undefined} />
                                                         <AvatarFallback className="bg-primary/5 text-primary font-bold text-base">
                                                             {booking?.teacher?.user?.name?.[0].toUpperCase()}
                                                         </AvatarFallback>

@@ -149,9 +149,9 @@ const Users = () => {
                                             <td className="px-6 py-4 align-middle">
                                                 <div className="flex items-center gap-3">
                                                     <Avatar size="lg" className="border border-border/30 shadow-sm">
-                                                        {user.avatar ? (
-                                                            <AvatarImage src={user.avatar} alt={user.name} />
-                                                        ) : null}
+                                                        {user.avatar_url && (
+                                                            <AvatarImage src={user.avatar_url} alt={user.name} />
+                                                        )}
                                                         <AvatarFallback className="bg-neutral-800 text-neutral-200 font-semibold text-xs">
                                                             {initials}
                                                         </AvatarFallback>

@@ -11,6 +11,6 @@ export interface Message {
         id: number;
         name: string;
         email: string;
-        avatar: string;
+        avatar_url: string;
     };
 }

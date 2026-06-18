@@ -467,7 +467,7 @@ const AiAssistantLayout = () => {
                 <div className="p-4 border-t border-border/40 bg-muted/10 shrink-0">
                 <div className="flex items-center gap-3">
                     <Avatar className="h-9 w-9 border border-border shadow-sm">
-                    <AvatarImage src={authUser?.avatar} />
+                    <AvatarImage src={authUser?.avatar_url} />
                     <AvatarFallback className="bg-primary/10 text-primary font-bold">
                         {authUser?.name?.charAt(0).toUpperCase() || "U"}
                     </AvatarFallback>
@@ -637,7 +637,7 @@ const AiAssistantLayout = () => {
                                                 {/* Avatar */}
                                                 {isUser ? (
                                                     <Avatar className="h-8 w-8 shrink-0 shadow-sm border border-background">
-                                                        <AvatarImage src={authUser?.avatar} />
+                                                        <AvatarImage src={authUser?.avatar_url} />
                                                         <AvatarFallback className="bg-primary/20 text-primary text-xs font-bold">
                                                             {authUser?.name?.charAt(0).toUpperCase() || "U"}
                                                         </AvatarFallback>
