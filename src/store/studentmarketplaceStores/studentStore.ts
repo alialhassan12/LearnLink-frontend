@@ -3,6 +3,7 @@ import type { Student } from "../../@types/student";
 import axiosInstance from "../../lib/axios";
 import type { Booking } from "../../@types/booking";
 import type { Enrollment } from "../../@types/enrollment";
+import { toast } from "sonner";
 
 interface StudentStore{
     student:Student | null;
@@ -15,6 +16,9 @@ interface StudentStore{
 
     getStudent:()=>Promise<void>;
     isGettingStudent:boolean;
+
+    editStudentProfile:(formData:FormData)=>Promise<Student>;
+    isEditingStudentProfile:boolean;
 }
 
 export const useStudentStore=create<StudentStore>((set)=>({
@@ -43,6 +47,27 @@ export const useStudentStore=create<StudentStore>((set)=>({
             console.log(error.response?.data?.message);
         }finally{
             set({isGettingStudent:false});
+        }
+    },
+
+    isEditingStudentProfile:false,
+    editStudentProfile:async(formData:FormData)=>{
+        set({isEditingStudentProfile:true});
+        try {
+            const response = await axiosInstance.put('/student/update-profile',formData,{
+                headers:{
+                    'Content-Type':'multipart/form-data',
+                }
+            });
+            set({student:response.data.student});
+            toast.success(response.data.message);
+            return response.data.student;
+        } catch (error:any) {
+            console.log(error.response?.data?.message);
+            toast.error(error.response?.data?.message);
+            return null;
+        }finally{
+            set({isEditingStudentProfile:false});
         }
     }
 }));

@@ -1,8 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useStudentStore } from "../../store/studentmarketplaceStores/studentStore";
-import { useCourseEnrollmentStore } from "../../store/studentmarketplaceStores/courseEnrollmentStore";
-import useBookingStore from "../../store/bookingStore";
 import { Avatar, AvatarFallback, AvatarImage } from "../../components/ui/avatar";
 import { Button } from "../../components/ui/button";
 import { Skeleton } from "../../components/ui/skeleton";
@@ -14,11 +12,9 @@ import {
     User, 
     BookOpen, 
     Clock, 
-    ArrowUpRight, 
     Compass, 
     Lock, 
     ShieldCheck, 
-    Sparkles,
     ChevronRight,
     LogOut
 } from "lucide-react";
@@ -235,17 +231,17 @@ const Profile = () => {
                                             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pl-2">
                                                 <div className="flex items-center gap-4">
                                                     <Avatar className="h-12 w-12 border border-border shadow-sm ring-2 ring-primary/5">
-                                                        <AvatarImage src={booking?.teacher?.user?.avatar_url || undefined} />
+                                                        <AvatarImage src={booking?.live_session?.teacher?.user?.avatar_url || undefined} />
                                                         <AvatarFallback className="bg-primary/5 text-primary font-bold text-base">
-                                                            {booking?.teacher?.user?.name?.[0].toUpperCase()}
+                                                            {booking?.live_session?.teacher?.user?.name?.[0].toUpperCase()}
                                                         </AvatarFallback>
                                                     </Avatar>
                                                     <div className="space-y-1">
                                                         <h4 className="font-bold text-text-strong group-hover:text-primary transition-colors text-base">
-                                                            {booking?.teacher?.user?.name}
+                                                            {booking?.live_session?.teacher?.user?.name}
                                                         </h4>
                                                         <p className="text-xs text-text-weak">
-                                                            Subject: <span className="text-primary font-semibold">{booking?.subject}</span>
+                                                            Subject: <span className="text-primary font-semibold">{booking?.live_session?.subject}</span>
                                                         </p>
                                                         <div className="flex flex-wrap items-center gap-2 pt-0.5">
                                                             <span className="flex items-center gap-1 text-[11px] font-medium text-text-weak bg-secondary/50 px-2 py-0.5 rounded-md">
@@ -341,10 +337,25 @@ const Profile = () => {
                         <div className="flex flex-col gap-4 pt-2">
                             <div className="flex flex-col gap-2">
                                 <div className="flex flex-col">
+                                    <span className="text-sm font-bold text-text-strong">Edit Profile</span>
+                                    <span className="text-text-weak text-xs mt-0.5">Update your profile information.</span>
+                                </div>
+                                <Button 
+                                    variant="default" 
+                                    className="w-full mt-2 h-10 font-bold text-xs cursor-pointer hover:bg-primary/80"
+                                    onClick={()=>navigate("/marketplace/profile/edit")}
+                                >
+                                    Edit Profile
+                                </Button>
+                            </div>
+                        </div>
+                        <div className="flex flex-col gap-4 pt-2">
+                            <div className="flex flex-col gap-2">
+                                <div className="flex flex-col">
                                     <span className="text-sm font-bold text-text-strong">Update Password</span>
                                     <span className="text-text-weak text-xs mt-0.5">Regularly change your password to keep your account secure.</span>
                                 </div>
-                                <Button variant="outline" className="w-full mt-2 h-10 font-bold text-xs hover:border-primary/45 hover:text-primary transition-all duration-300">
+                                <Button variant="outline" className="w-full mt-2 h-10 font-bold text-xs hover:border-primary/45 hover:text-primary transition-all duration-300 cursor-pointer">
                                     Change Password
                                 </Button>
                             </div>
@@ -359,6 +370,7 @@ const Profile = () => {
                                     variant="destructive"
                                     onClick={handleLogout}
                                     disabled={isLoggingout}
+                                    className="cursor-pointer"
                                 >
                                     {isLoggingout?
                                         <div className="flex items-center gap-2">

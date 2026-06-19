@@ -15,6 +15,7 @@ import MyLearnings from "./StudentMarketplacePages/MyLearnings";
 import CourseLearning from "./StudentMarketplacePages/LearningsPages/CourseLearning";
 import Profile from "./StudentMarketplacePages/Profile";
 import AiAssistantLayout from "./AiAssistantLayout";
+import EditProfile from "./StudentMarketplacePages/EditProfile";
 
 const StudentMarketPlace=()=>{
     const authUser=useAuthStore((state)=>state.authUser);
@@ -39,6 +40,7 @@ const StudentMarketPlace=()=>{
                     <Route path="course/:id" element={<CourseLearning/>}/>
                 </Route>
                 <Route path="/profile" element={<Profile/>}/>
+                <Route path="/profile/edit" element={<EditProfile/>}/>
                 <Route path="/ai-assistant" element={<AiAssistantLayout/>}/>
             </Routes>
             <Footer/>
