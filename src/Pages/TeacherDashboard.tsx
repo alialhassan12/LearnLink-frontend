@@ -22,6 +22,7 @@ import EditCourse from "./TeacherPages/EditCourse";
 import { Button } from "../components/ui/button";
 import AiAssistantLayout from "./AiAssistantLayout";
 import Calendar from "./TeacherPages/Calendar";
+import SubscriptionPlans from "./TeacherPages/SubscriptionPlans";
 
 const TeacherDashboard=()=>{
     const {authUser}=useAuthStore();
@@ -87,6 +88,7 @@ const TeacherDashboard=()=>{
                             <Route path="edit" element={<EditProfile/>}></Route>
                         </Route>
                         <Route path="ai-assistant" element={<AiAssistantLayout/>}/>
+                        <Route path="subscriptions" element={<SubscriptionPlans/>}/>
                     </Routes>
                 </div>
                 

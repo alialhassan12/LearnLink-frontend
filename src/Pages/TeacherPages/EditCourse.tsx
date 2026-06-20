@@ -4,7 +4,7 @@ import { useCourseStore } from "../../store/courseStore";
 import useCategoryStore  from "../../store/categoryStore";
 import type { CourseSection } from "../../@types/course_section";
 import type { Course } from "../../@types/course";
-import { ChevronDown, Image, Info, LayoutList, Pencil, Plus, Upload } from "lucide-react";
+import { ChevronDown, Image, Info, LayoutList, Pencil, Plus, Trash2, Upload } from "lucide-react";
 import { Input } from "../../components/ui/input";
 import { Textarea } from "../../components/ui/textarea";
 import { NativeSelect, NativeSelectOption } from "../../components/ui/native-select";
@@ -14,6 +14,7 @@ import AddSection from "../../components/teacherDashboardComponents/AddSection";
 import { Spinner } from "../../components/ui/spinner";
 import { toast } from "sonner";
 import { Skeleton } from "../../components/ui/skeleton";
+import type { CourseMaterial } from "../../@types/courseMaterials";
 
 const EditCourse=()=>{
     const {id}=useParams();
@@ -98,6 +99,30 @@ const EditCourse=()=>{
                 }
             })
         }
+    }
+    const handleDeleteMaterial=(sectionId:number,materialId:number)=>{
+        setFormData((prev)=>{
+            if(!prev) return null;
+            return{
+                ...prev,
+                sections:prev.sections?.map((s)=>{
+                    if(s.id !== sectionId) return s;
+                    return{
+                        ...s,
+                        materials:s.materials?.filter((m)=>m.id !==materialId)
+                    }
+                })
+            }
+        })
+    }
+    const handleDeleteSection=(sectionId:number)=>{
+        setFormData((prev)=>{
+            if(!prev) return null;
+            return{
+                ...prev,
+                sections:prev.sections?.filter((s)=>s.id !==sectionId)
+            }
+        })
     }
 
     if(isGettingCourseWithMaterialsById || isGettingCategories || !formData){
@@ -230,43 +255,64 @@ const EditCourse=()=>{
                 <div className="flex flex-col divide-y divide-border">
                     {formData?.sections?.map((section,index)=>{
                         return(
-                            <Collapsible key={index}>
-                                <CollapsibleTrigger className="w-full hover:bg-muted/50 rounded-md transition-colors p-4 cursor-pointer group">
-                                    <div className="flex flex-row justify-between items-center w-full">
-                                        <div className="flex flex-col items-start text-left">
-                                            <p className="text-sm md:text-base font-medium group-hover:text-primary transition-colors">{section.title}</p>
-                                            <p className="text-muted-foreground text-xs md:text-sm mt-1">{section.materials.length} materials</p>
-                                        </div>
-                                        <ChevronDown className="w-5 h-5 text-muted-foreground group-data-[state=open]:rotate-180 transition-transform duration-200"/>
-                                    </div>
-                                </CollapsibleTrigger>
-                                <CollapsibleContent className="p-4 pt-0">
-                                    <div className="flex flex-col gap-2 mt-4">
-                                        {section?.materials?.map((material,index)=>{
-                                            return(
-                                                <div key={index} className="bg-background border border-border p-3 rounded-md flex flex-row items-center gap-3 hover:border-primary/30 transition-colors">
-                                                    <div className="p-2 bg-muted rounded-md shrink-0">
-                                                        <Upload className="w-4 h-4 text-muted-foreground"/>
-                                                    </div>
-                                                    <p className="text-sm font-medium line-clamp-1">{material.title}</p>
-                                                </div>
-                                            );
-                                        })}
-                                        {section.materials.length === 0 && (
-                                            <div className="text-center p-4 text-sm text-muted-foreground border border-dashed border-border rounded-md">
-                                                No materials in this section yet.
+                            <div className="flex flex-row items-center gap-3 p-4 w-full">
+                                <Collapsible key={index} className="w-full border border-border rounded-md">
+                                    <CollapsibleTrigger className="w-full hover:bg-muted/50 rounded-md transition-colors p-4 cursor-pointer group">
+                                        <div className="flex flex-row justify-between items-center w-full">
+                                            <div className="flex flex-col items-start text-left">
+                                                <p className="text-sm md:text-base font-medium group-hover:text-primary transition-colors">{section.title}</p>
+                                                <p className="text-muted-foreground text-xs md:text-sm mt-1">{section.materials.length} materials</p>
                                             </div>
-                                        )}
-                                    </div>
-                                    <div className="flex flex-row items-center justify-center pt-4">
-                                        <Button variant="outline" onClick={()=>handleAddMaterialClick()} className="h-10 cursor-pointer bg-card border border-border rounded-md w-full">
-                                            <Plus className="w-4 h-4"/>
-                                            <span className="text-sm font-medium ml-2">Add Material</span>
-                                        </Button>
-                                        <input ref={addMaterialRef} type="file" className="hidden" onChange={(e)=>handleAddMaterial(section?.id,e)}/>
-                                    </div>
-                                </CollapsibleContent>
-                            </Collapsible>
+                                            <ChevronDown className="w-5 h-5 text-muted-foreground group-data-[state=open]:rotate-180 transition-transform duration-200"/>
+
+                                        </div>
+                                    </CollapsibleTrigger>
+                                    <CollapsibleContent className="p-4 pt-0">
+                                        <div className="flex flex-col gap-2 mt-4">
+                                            {section?.materials?.map((material,index)=>{
+                                                return(
+                                                    <div key={index} className="bg-background border border-border p-3 rounded-md flex flex-row items-center justify-between gap-3 hover:border-primary/30 transition-colors">
+                                                        <div className="flex flex-row items-center gap-2">
+                                                            <div className="p-2 bg-muted rounded-md shrink-0">
+                                                                <Upload className="w-4 h-4 text-muted-foreground"/>
+                                                            </div>
+                                                            <p className="text-sm font-medium line-clamp-1">{material.title}</p>
+                                                        </div>
+                                                        <Button 
+                                                            onClick={()=>handleDeleteMaterial(section?.id,material?.id)}
+                                                            variant="destructive" 
+                                                            size="icon" 
+                                                            className="h-8 w-8 cursor-pointer"
+                                                        >
+                                                            <Trash2 className="w-4 h-4"/>
+                                                        </Button>
+                                                    </div>
+                                                );
+                                            })}
+                                            {section.materials.length === 0 && (
+                                                <div className="text-center p-4 text-sm text-muted-foreground border border-dashed border-border rounded-md">
+                                                    No materials in this section yet.
+                                                </div>
+                                            )}
+                                        </div>
+                                        <div className="flex flex-row items-center justify-center pt-4">
+                                            <Button variant="outline" onClick={()=>handleAddMaterialClick()} className="h-10 cursor-pointer bg-card border border-border rounded-md w-full">
+                                                <Plus className="w-4 h-4"/>
+                                                <span className="text-sm font-medium ml-2">Add Material</span>
+                                            </Button>
+                                            <input ref={addMaterialRef} type="file" className="hidden" onChange={(e)=>handleAddMaterial(section?.id,e)}/>
+                                        </div>
+                                    </CollapsibleContent>
+                                </Collapsible>
+                                <Button 
+                                    onClick={()=>handleDeleteSection(section?.id)}
+                                    className="cursor-pointer shrink-0 h-10" 
+                                    variant="destructive" 
+                                    size="icon"
+                                >
+                                    <Trash2/>
+                                </Button>
+                            </div>
                         );
                     })}
                     {(!formData?.sections || formData?.sections.length === 0) && (
