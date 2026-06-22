@@ -69,7 +69,7 @@ const MessagesLayout=()=>{
     },[]);
 
     const filteredConversation=conversations.filter((conversation)=>{
-        return conversation.participants.some((p)=>p.user?.name.toLowerCase().includes(search.toLowerCase()));
+        return conversation.participants.some((p)=>p.user?.name?.toLowerCase()?.includes(search.toLowerCase()));
     });
     
     // Laravel Echo Real-Time Listeners

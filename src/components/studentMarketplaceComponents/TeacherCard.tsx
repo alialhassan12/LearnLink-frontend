@@ -1,6 +1,7 @@
 import { Button } from "../ui/button";
 import type { Teacher } from "../../@types/teacher";
 import { useNavigate } from "react-router-dom";
+import ProTeacherBadge from "./ProTeacherBadge";
 
 const TeacherCard = ({ teacher }: { teacher: Teacher }) => {
 
@@ -15,21 +16,26 @@ const TeacherCard = ({ teacher }: { teacher: Teacher }) => {
                 {/* teacher image */}
                 <div className="relative w-full md:w-48 h-48 md:h-48 shrink-0">
                     {
-                        teacher.avatar?(
+                        teacher?.user?.avatar_url?(
                             <img 
                                 className="w-full h-full rounded-xl object-cover shadow-sm group-hover:scale-[1.02] transition-transform duration-500" 
-                                src={teacher.avatar} 
-                                alt={teacher.name}
+                                src={teacher?.user?.avatar_url} 
+                                alt={teacher?.user?.name}
                             />
                         ):
                         (
                             <div className="w-full h-full rounded-xl bg-gray-300/30 flex items-center justify-center">
-                                <span className="text-gray-400 text-5xl">{teacher.name.charAt(0).toUpperCase()}</span>
+                                <span className="text-gray-400 text-5xl">{teacher?.user?.name?.charAt(0).toUpperCase()}</span>
                             </div>
                         )
                     }
-                    <div className="absolute top-2 right-2 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-lg border border-border flex items-center gap-1 shadow-sm">
-                        <span className="text-primary font-bold text-sm">${teacher.hourly_rate}</span>
+                    {
+                        teacher?.user?.subscription?.plan?.features?.search_priority && teacher?.user?.subscription?.status === 'active' && (
+                            <ProTeacherBadge />
+                        )
+                    }
+                    <div className="absolute bottom-2 right-2 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-lg border border-border flex items-center gap-1 shadow-sm">
+                        <span className="text-primary font-bold text-sm">${teacher?.hourly_rate}</span>
                         <span className="text-[10px] text-text-weak font-medium">/hr</span>
                     </div>
                 </div>
@@ -38,8 +44,8 @@ const TeacherCard = ({ teacher }: { teacher: Teacher }) => {
                 <div className="flex flex-col flex-1 min-w-0">
                     <div className="flex flex-row justify-between items-start mb-2">
                         <div className="min-w-0">
-                            <h3 className="text-xl font-bold text-text-strong truncate group-hover:text-primary transition-colors">{teacher.name}</h3>
-                            <p className="text-sm font-medium text-primary line-clamp-1">{teacher.headline}</p>
+                            <h3 className="text-xl font-bold text-text-strong truncate group-hover:text-primary transition-colors">{teacher?.user?.name}</h3>
+                            <p className="text-sm font-medium text-primary line-clamp-1">{teacher?.headline}</p>
                         </div>
                         <div className="hidden sm:flex flex-col items-end shrink-0">
                             <div className="flex items-center gap-1">

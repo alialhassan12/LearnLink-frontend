@@ -78,7 +78,6 @@ const useBrowseStore=create<BrowseStoreState>((set,get)=>({
             }else{
                 const response = await axiosInstance.get(`/teachers?page=${page}`);
                 set({teachers:response.data.teachers,teacherPaginationData:response.data.pagination});
-                console.log(response.data);
             }
         } catch (error:any) {
             console.log(error.response?.data?.message);

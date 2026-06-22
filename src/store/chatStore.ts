@@ -9,6 +9,7 @@ interface ChatState{
     activeConversation:Conversation | null;
     setActiveConversation:(conversation:Conversation | null)=>void;
     messages:Message[];
+    setMessages:(messages:Message[])=>void;
 
     isGettingConversations:boolean;
     getConversations:()=>Promise<void>;

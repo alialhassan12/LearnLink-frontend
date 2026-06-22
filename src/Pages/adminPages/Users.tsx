@@ -87,12 +87,12 @@ const Users = () => {
                     <p className="text-3xl text-text-strong font-extrabold">User Management</p>
                     <p className="text-text-weak">Manage and monitor your global learning community.</p>
                 </div>
-                <Button
+                {/* <Button
                     className="bg-gradient-to-r from-indigo-500 to-purple-500 text-white hover:from-indigo-600 hover:to-purple-600 transition-all duration-300 ease-in-out cursor-pointer hover:scale-105 shrink-0 self-start sm:self-auto"
                 >
                     <UserPlus />
                     Add User
-                </Button>
+                </Button> */}
             </div>
 
             {/* filters */}

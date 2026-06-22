@@ -15,7 +15,7 @@ interface MessageButtonInterface{
 
 const MessageButton =({recieverUser,className,children,variant,disabled}:MessageButtonInterface)=>{
     const {authUser}=useAuthStore();
-    const {conversations,setActiveConversation,addConversation,getMessages}=useChatStore();
+    const {conversations,setActiveConversation,addConversation,getMessages,setMessages}=useChatStore();
     const navigate =useNavigate();
 
     const handleSendMessage=()=>{
@@ -63,6 +63,7 @@ const MessageButton =({recieverUser,className,children,variant,disabled}:Message
             ]
         }
         setActiveConversation(newConversation);
+        setMessages([]);
         addConversation(newConversation);
         if(authUser?.role == 'student') navigate("/marketplace/chat");
         if(authUser?.role == 'teacher') navigate("/dashboard/chat");
