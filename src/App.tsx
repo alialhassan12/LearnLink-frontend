@@ -66,7 +66,10 @@ function App() {
     if (loggedIn && useAuthStore.getState().authUser?.role === 'student'){
       await getEnrolledCoursesIds();
     }
-    await getConversations();
+    // If user is logged in, fetch conversations
+    if(loggedIn){
+      await getConversations();
+    }
   };
   
   useEffect(() => {

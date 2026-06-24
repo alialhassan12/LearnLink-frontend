@@ -1,26 +1,60 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useCourseStore } from "../../../store/courseStore";
 import { useEffect, useState } from "react";
-import { ArrowLeft, ArrowRight, PlayCircle, FileText, Image, FileDown, ChevronDown, ChevronRight, BookOpen, Clock, Globe } from "lucide-react";
+import { ArrowLeft, ArrowRight, PlayCircle, FileText, Image, FileDown, ChevronDown, ChevronRight, BookOpen, Clock, Globe, Star } from "lucide-react";
 import { Button } from "../../../components/ui/button";
+import { Separator } from "../../../components/ui/separator";
 import { Avatar, AvatarFallback, AvatarImage } from "../../../components/ui/avatar";
 import { Skeleton } from "../../../components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../../components/ui/tabs";
 import type { CourseMaterial } from "../../../@types/courseMaterials";
 import { toast } from "sonner";
+import { Spinner } from "../../../components/ui/spinner";
+import { useStudentStore } from "../../../store/studentmarketplaceStores/studentStore";
 
 const CourseLearning = () => {
     const { id } = useParams();
     const navigate = useNavigate();
-    const { courseWithMaterials, isGettingCourseWithMaterialsById, getCourseWithMaterialsById,isDownloadingCourseMaterial,downoladCourseMaterial } = useCourseStore();
+    const { 
+        courseWithMaterials, 
+        isGettingCourseWithMaterialsById, 
+        getCourseWithMaterialsById,
+        isDownloadingCourseMaterial,
+        downoladCourseMaterial,
+        isCreatingCourseReview,
+        createCourseReview,
+        courseReviews
+    } = useCourseStore();
+    const { loggedInStudentId, getLoggedInStudentId } = useStudentStore();
     const [selectedMaterial, setSelectedMaterial] = useState<CourseMaterial | null>(null);
     const [expandedSections, setExpandedSections] = useState<Record<number, boolean>>({});
 
+    const [rating, setRating] = useState<number>(0);
+    const [hoverRating, setHoverRating] = useState<number>(0);
+    const [reviewText, setReviewText] = useState<string>("");
+
     useEffect(() => {
         if (id) {
+            getLoggedInStudentId();
             getCourseWithMaterialsById(Number(id));
         }
     }, [id]);
+
+    const handleSubmitCourseReview = async () => {
+        if (rating === 0) {
+            toast.error("Please select a rating.");
+            return;
+        }
+        if (id) {
+            try {
+                await createCourseReview(Number(id), rating, reviewText);
+                setRating(0);
+                setReviewText("");
+            } catch (error) {
+                console.error(error);
+            }
+        }
+    };
 
     // Auto-select first available material and expand sections when course data is loaded
     useEffect(() => {
@@ -274,6 +308,12 @@ const CourseLearning = () => {
                             >
                                 Instructor
                             </TabsTrigger>
+                            <TabsTrigger
+                                value="reviews"
+                                className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent px-4 py-2 text-sm font-medium"
+                            >
+                                Reviews
+                            </TabsTrigger>
                         </TabsList>
 
                         <TabsContent value="overview" className="mt-0">
@@ -332,6 +372,108 @@ const CourseLearning = () => {
                                         Qualified instructor specializing in academic coursework. Contact via the internal message board for live sessions and Q&A scheduling.
                                     </p>
                                 </div>
+                            </div>
+                        </TabsContent>
+
+                        <TabsContent value="reviews" className="mt-0">
+                            <div className="bg-card border border-border p-6 rounded-xl space-y-6 shadow-sm">
+                                <h3 className="text-lg font-bold text-text-strong">Course Review</h3>
+                                
+                                {(() => {
+                                    const myReview = courseReviews?.find((r) => r.student_id === loggedInStudentId);
+                                    
+                                    if (myReview) {
+                                        return (
+                                            <div className="flex flex-col gap-4">
+                                                <p className="text-text-weak text-sm">
+                                                    Thank you for reviewing this course. Your feedback helps other students make informed decisions.
+                                                </p>
+                                                <Separator className="bg-border/50" />
+                                                <div className="flex items-center gap-1">
+                                                    {[1, 2, 3, 4, 5].map((star) => (
+                                                        <Star
+                                                            key={star}
+                                                            size={22}
+                                                            className={star <= myReview.rating ? "fill-amber-400 text-amber-400" : "text-border/40 text-muted-foreground/30"}
+                                                        />
+                                                    ))}
+                                                    <span className="ml-2 text-sm font-bold text-text-strong">{myReview.rating} / 5</span>
+                                                </div>
+                                                {myReview.review ? (
+                                                    <div className="p-4 rounded-2xl bg-muted/20 border border-border/50">
+                                                        <p className="text-sm text-text-strong italic">"{myReview.review}"</p>
+                                                    </div>
+                                                ) : (
+                                                    <p className="text-sm text-text-weak italic">No written comment provided.</p>
+                                                )}
+                                                <div className="flex justify-end">
+                                                    <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-700 border border-emerald-200">
+                                                        Submitted
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        );
+                                    } else {
+                                        return (
+                                            <div className="flex flex-col gap-6 max-w-xl">
+                                                <p className="text-text-weak text-sm">
+                                                    How would you rate this course? Share your learning experience to help other students.
+                                                </p>
+                                                <Separator className="bg-border/50" />
+                                                
+                                                <div className="flex flex-col gap-2">
+                                                    <label className="text-sm font-bold text-text-strong">Rating</label>
+                                                    <div 
+                                                        className="flex items-center gap-2"
+                                                        onMouseLeave={() => setHoverRating(0)}
+                                                    >
+                                                        {[1, 2, 3, 4, 5].map((star) => (
+                                                            <button
+                                                                key={star}
+                                                                type="button"
+                                                                className="cursor-pointer transition-transform duration-200 hover:scale-110 focus:outline-none"
+                                                                onClick={() => setRating(star)}
+                                                                onMouseEnter={() => setHoverRating(star)}
+                                                            >
+                                                                <Star
+                                                                    size={30}
+                                                                    className={`transition-colors duration-200 ${
+                                                                        star <= (hoverRating || rating)
+                                                                            ? "fill-amber-400 text-amber-400"
+                                                                            : "text-border/40 text-muted-foreground/30 hover:text-amber-300"
+                                                                    }`}
+                                                                />
+                                                            </button>
+                                                        ))}
+                                                    </div>
+                                                </div>
+
+                                                <div className="flex flex-col gap-2">
+                                                    <label className="text-sm font-bold text-text-strong">Review Description (Optional)</label>
+                                                    <textarea
+                                                        value={reviewText}
+                                                        onChange={(e) => setReviewText(e.target.value)}
+                                                        placeholder="Write your review here..."
+                                                        rows={4}
+                                                        className="w-full p-4 rounded-2xl bg-muted/20 border border-border/50 focus:border-primary/50 focus:ring-1 focus:ring-primary/50 outline-none transition-all resize-none text-sm text-text-strong placeholder:text-text-weak"
+                                                    />
+                                                </div>
+
+                                                <Button
+                                                    onClick={handleSubmitCourseReview}
+                                                    disabled={rating === 0 || isCreatingCourseReview}
+                                                    className="w-full sm:w-auto self-start px-8 py-6 rounded-2xl bg-primary text-background font-bold hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 cursor-pointer"
+                                                >
+                                                    {isCreatingCourseReview ? (
+                                                        <Spinner className="text-background" />
+                                                    ) : (
+                                                        "Submit Review"
+                                                    )}
+                                                </Button>
+                                            </div>
+                                        );
+                                    }
+                                })()}
                             </div>
                         </TabsContent>
                     </Tabs>

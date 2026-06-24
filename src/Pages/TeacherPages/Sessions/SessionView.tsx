@@ -2,7 +2,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useLiveSessionStore } from "../../../store/liveSessionsStore";
 import { Button } from "../../../components/ui/button";
 import { useEffect, useRef, useState } from "react";
-import { ArrowRight, Calendar, Clock, Download, Mail, Trash2, Upload, Video } from "lucide-react";
+import { ArrowRight, Calendar, Clock, Download, Mail, Star, Trash2, Upload, Video } from "lucide-react";
 import { Separator } from "../../../components/ui/separator";
 import { Avatar, AvatarFallback, AvatarImage } from "../../../components/ui/avatar";
 import useAuthStore from "../../../store/authStore";
@@ -16,7 +16,14 @@ import MessageButton from "../../../components/MessageButton";
 const SessionView =()=>{
     const {id}=useParams();
     const {authUser}=useAuthStore();
-    const {getToken,isGettingToken,teacherSelectedSession,isGettingTeacherSelectedSession,getTeacherSelectedSession}=useLiveSessionStore();
+    const {
+        getToken,
+        isGettingToken,
+        teacherSelectedSession,
+        isGettingTeacherSelectedSession,
+        getTeacherSelectedSession,
+        sessionReview
+    }=useLiveSessionStore();
     const {sessionMaterials,setSessionMaterials,uploadMaterials,isuploadingMaterials,deleteSessionMaterial,isDeletingSessionMaterial}=useSessionMaterialsStore();
     const navigate=useNavigate();
     const [selectedMaterialId,setSelectedMaterialId]=useState<number|null>(null);
@@ -364,6 +371,51 @@ const SessionView =()=>{
                             </Button>
                         )}
                     </div>
+                </div>
+
+                {/* Session Review Column */}
+                <div className="flex flex-col w-full md:w-[35%] bg-card border border-border rounded-lg p-6 h-fit">
+                    <div className="w-full">
+                        <p className="text-text-strong text-lg font-bold">Session Review</p>
+                    </div>
+                    <Separator className="my-3"/>
+                    
+                    {sessionReview ? (
+                        <div className="flex flex-col gap-4">
+                            <div className="flex items-center gap-1">
+                                {[1, 2, 3, 4, 5].map((star) => (
+                                    <Star
+                                        key={star}
+                                        size={20}
+                                        className={star <= sessionReview.rating ? "fill-amber-400 text-amber-400" : "text-border/40 text-muted-foreground/30"}
+                                    />
+                                ))}
+                                <span className="ml-2 text-sm font-bold text-text-strong">{sessionReview.rating} / 5</span>
+                            </div>
+                            
+                            {sessionReview.review ? (
+                                <div className="p-3.5 rounded-xl bg-muted/20 border border-border/50">
+                                    <p className="text-sm text-text-strong italic">"{sessionReview.review}"</p>
+                                </div>
+                            ) : (
+                                <p className="text-sm text-text-weak italic">No written comment provided.</p>
+                            )}
+                            
+                            <div className="text-[10px] text-text-weak text-right font-medium">
+                                Reviewed on {new Date(sessionReview.created_at).toLocaleDateString()}
+                            </div>
+                        </div>
+                    ) : (
+                        <div className="flex flex-col items-center justify-center py-8 text-center">
+                            <div className="w-12 h-12 rounded-full bg-muted/30 border border-dashed border-border flex items-center justify-center text-text-weak mb-3">
+                                <Star size={20} className="text-text-weak opacity-40"/>
+                            </div>
+                            <p className="text-text-strong text-sm font-bold">No Review Yet</p>
+                            <p className="text-text-weak text-xs mt-1 max-w-[200px]">
+                                The student hasn't submitted a review for this session yet.
+                            </p>
+                        </div>
+                    )}
                 </div>
             </div>
 

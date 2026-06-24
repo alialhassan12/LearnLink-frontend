@@ -1,6 +1,8 @@
 import {create} from 'zustand';
 import type {LiveSession} from '../@types/liveSession';
 import axiosInstance from '../lib/axios';
+import type { SessionReview } from '../@types/sessionReview';
+import { toast } from 'sonner';
 
 
 export interface LiveSessionState{
@@ -28,10 +30,16 @@ export interface LiveSessionState{
     studentSelectedSession:LiveSession |null;
     isGettingStudentSelectedSession:boolean;
     getStudentSelectedSession:(id:number)=>Promise<LiveSession | null>;
+
+    // session reviews
+    sessionReview:SessionReview | null;
+    isCreatingSessionReview:boolean;
+    createSessionReview:(session_id:number,rating:number,review_text?:string)=>Promise<void>;
 }
 
 export const useLiveSessionStore=create<LiveSessionState>((set)=>({
     teacherLiveSessions:[],
+    sessionReview:null,
 
     isGettingTeacherLiveSessions:false,
     getTeacherLiveSessions:async()=>{
@@ -98,7 +106,10 @@ export const useLiveSessionStore=create<LiveSessionState>((set)=>({
         set({isGettingTeacherSelectedSession:true});
         try {
             const response =await axiosInstance.get(`/live-sessions/teacher-session/${id}`);
-            set({teacherSelectedSession:response.data.session});
+            set({
+                teacherSelectedSession:response.data.session,
+                sessionReview:response.data.session.session_review
+            });
             return response.data.session;
         } catch (error:any) {
             console.error('Error fetching teacher selected session:', error?.response?.data?.message || error?.message || 'Unknown error');
@@ -114,13 +125,31 @@ export const useLiveSessionStore=create<LiveSessionState>((set)=>({
         set({isGettingStudentSelectedSession:true});
         try {
             const response=await axiosInstance.get(`/live-sessions/student-session/${id}`);
-            set({studentSelectedSession:response.data.session});
+            set({
+                studentSelectedSession:response.data.session,
+                sessionReview:response.data.session.session_review
+            });
             return response.data.session;
         } catch (error:any) {
             console.error('Error fetching student selected session:', error?.response?.data?.message || error?.message || 'Unknown error');
             return null;
         } finally{
             set({isGettingStudentSelectedSession:false});
+        }
+    },
+
+    isCreatingSessionReview:false,
+    createSessionReview:async(live_session_id:number,rating:number,review_text?:string)=>{
+        set({isCreatingSessionReview:true});
+        try {
+            const response =await axiosInstance.post('/live-sessions/review/new',{live_session_id,rating,review_text});
+            set({sessionReview:response.data.session_review});
+            toast.success(response.data.message);
+        } catch (error:any) {
+            console.error('Error creating session review:', error?.response?.data?.message || error?.message || 'Unknown error');
+            toast.error(error?.response?.data?.message || error?.message || 'Unknown error');
+        } finally{
+            set({isCreatingSessionReview:false});
         }
     }
 

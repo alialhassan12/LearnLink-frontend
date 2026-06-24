@@ -2,11 +2,12 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useCourseStore } from "../../store/courseStore";
 import { useEffect, useState } from "react";
 import { Button } from "../../components/ui/button";
-import { ChevronDown, Eye, Pencil, Shredder, Upload, Users } from "lucide-react";
+import { ChevronDown, Eye, Pencil, Shredder, Upload, Users, Star } from "lucide-react";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "../../components/ui/collapsible";
 import { Skeleton } from "../../components/ui/skeleton";
 import CoursePreview from "../../components/teacherDashboardComponents/CoursePreview";
 import { Spinner } from "../../components/ui/spinner";
+import { Avatar, AvatarFallback, AvatarImage } from "../../components/ui/avatar";
 
 const CourseDetails = () => {
     const {id}=useParams();
@@ -15,7 +16,8 @@ const CourseDetails = () => {
         getCourseWithMaterialsById,
         isGettingCourseWithMaterialsById,
         changeCourseStatus,
-        isChangingCourseStatus
+        isChangingCourseStatus,
+        courseReviews
     }=useCourseStore();
 
     const [openCoursePreview,setOpenCoursePreview]=useState(false);
@@ -190,6 +192,75 @@ const CourseDetails = () => {
                     )}
                 </div>
             </div>
+
+            {/* reviews section */}
+            <div className="flex flex-col bg-card border border-border rounded-lg w-full overflow-hidden shadow-sm">
+                {/* header */}
+                <div className="flex flex-row justify-between items-center p-4 border-b border-border bg-muted/30">
+                    <p className="text-base font-semibold">Course Reviews</p>
+                    <span className="text-sm text-muted-foreground font-medium">{courseReviews?.length || 0} reviews</span>
+                </div>
+                
+                <div className="p-6">
+                    {courseReviews && courseReviews.length > 0 ? (
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            {courseReviews.map((reviewItem) => {
+                                const reviewerName = reviewItem.student?.user?.name || "Student";
+                                const avatarUrl = reviewItem.student?.user?.avatar_url || undefined;
+                                
+                                return (
+                                    <div key={reviewItem.id} className="flex flex-col gap-3 p-4 rounded-xl border border-border bg-background/50 hover:border-primary/20 transition-all duration-300">
+                                        <div className="flex items-center gap-3">
+                                            <Avatar className="h-10 w-10 border border-border">
+                                                <AvatarImage src={avatarUrl} />
+                                                <AvatarFallback className="font-bold bg-primary/10 text-primary text-xs">
+                                                    {reviewerName.slice(0,2).toUpperCase()}
+                                                </AvatarFallback>
+                                            </Avatar>
+                                            <div className="flex-1 min-w-0">
+                                                <p className="text-sm font-bold text-text-strong truncate">{reviewerName}</p>
+                                                <p className="text-[10px] text-text-weak">
+                                                    Reviewed on {new Date(reviewItem.created_at).toLocaleDateString()}
+                                                </p>
+                                            </div>
+                                        </div>
+                                        
+                                        <div className="flex items-center gap-0.5">
+                                            {[1, 2, 3, 4, 5].map((star) => (
+                                                <Star
+                                                    key={star}
+                                                    size={16}
+                                                    className={star <= reviewItem.rating ? "fill-amber-400 text-amber-400" : "text-border/40 text-muted-foreground/30"}
+                                                />
+                                            ))}
+                                            <span className="ml-1.5 text-xs font-semibold text-text-strong">{reviewItem.rating} / 5</span>
+                                        </div>
+                                        
+                                        {reviewItem.review ? (
+                                            <p className="text-xs text-text-strong bg-muted/10 p-2.5 rounded-lg border border-border/30 italic">
+                                                "{reviewItem.review}"
+                                            </p>
+                                        ) : (
+                                            <p className="text-xs text-text-weak italic">No written comment provided.</p>
+                                        )}
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    ) : (
+                        <div className="flex flex-col items-center justify-center py-10 text-center">
+                            <div className="w-12 h-12 rounded-full bg-muted/30 border border-dashed border-border flex items-center justify-center text-text-weak mb-3">
+                                <Star size={20} className="text-text-weak opacity-40"/>
+                            </div>
+                            <p className="text-text-strong text-sm font-bold">No Reviews Yet</p>
+                            <p className="text-text-weak text-xs mt-1 max-w-[240px]">
+                                Enrolled students haven't submitted any reviews for this course yet.
+                            </p>
+                        </div>
+                    )}
+                </div>
+            </div>
+
             <CoursePreview course={courseWithMaterials} open={openCoursePreview} setOpen={setOpenCoursePreview}/>
         </div>
     );

@@ -35,6 +35,7 @@ interface BookingStore{
     rejectBooking:(booking_id:number)=>Promise<void>;
     isApprovingBooking:boolean;
     approveBooking:(booking_id:number)=>Promise<void>;
+
     max_live_sessions:number;
     current_live_sessions:number;
 }
@@ -70,7 +71,6 @@ const useBookingStore =create<BookingStore>((set,get)=>({
                 max_live_sessions:response.data.max_live_sessions,
                 current_live_sessions:response.data.current_live_sessions
             });
-            console.log(response.data);
         }
         catch(error:any){
             toast.error('Failed to get teacher bookings: ',error.response?.data?.message || 'Unknown error');

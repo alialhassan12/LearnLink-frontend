@@ -2,7 +2,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useLiveSessionStore } from "../../../store/liveSessionsStore";
 import { Skeleton } from "../../../components/ui/skeleton";
 import { useEffect, useState } from "react";
-import { ArrowRight, Download, Mail, Video } from "lucide-react";
+import { ArrowRight, Download, Mail, Video, Star } from "lucide-react";
 import { Button } from "../../../components/ui/button";
 import { Separator } from "../../../components/ui/separator";
 import { Avatar, AvatarFallback, AvatarImage } from "../../../components/ui/avatar";
@@ -14,10 +14,31 @@ import MessageButton from "../../../components/MessageButton";
 const SessionView = () => {
     const {id}=useParams();
     const {authUser}=useAuthStore();
-    const {studentSelectedSession,isGettingStudentSelectedSession,getStudentSelectedSession,getToken,isGettingToken}=useLiveSessionStore();
+    const {
+        studentSelectedSession,
+        isGettingStudentSelectedSession,
+        getStudentSelectedSession,getToken,
+        isGettingToken,
+        createSessionReview,
+        isCreatingSessionReview,
+        sessionReview
+    }=useLiveSessionStore();
     const navigate=useNavigate();
     const [selectedMaterialId,setSelectedMaterialId]=useState<number|null>(null);
     const [isDownloadingMaterial,setIsDownloadingMaterial]=useState<boolean>(false);
+    const [rating, setRating] = useState<number>(0);
+    const [hoverRating, setHoverRating] = useState<number>(0);
+    const [reviewText, setReviewText] = useState<string>("");
+
+    const handleSubmitReview = async () => {
+        if (rating === 0) {
+            toast.error("Please select a rating.");
+            return;
+        }
+        if (id) {
+            await createSessionReview(Number(id), rating, reviewText);
+        }
+    };
 
     useEffect(()=>{
         if(id){
@@ -151,6 +172,96 @@ const SessionView = () => {
                         </div>
                     </div>
                 </div>
+            </div>
+
+            {/* Session Review section */}
+            <div className="bg-card border border-border/50 rounded-3xl p-6 md:p-8 shadow-sm mb-8">
+                <h2 className="text-xl font-bold text-text-strong tracking-tight mb-2">Session Review</h2>
+                <p className="text-text-weak text-sm mb-6">
+                    {sessionReview 
+                        ? "Thank you for reviewing this live session. Your feedback helps us improve." 
+                        : "How was your experience? Rate this session and share your feedback with the teacher."}
+                </p>
+                <Separator className="mb-6 bg-border/50"/>
+
+                {sessionReview ? (
+                    <div className="flex flex-col gap-4">
+                        <div className="flex items-center gap-1">
+                            {[1, 2, 3, 4, 5].map((star) => (
+                                <Star
+                                    key={star}
+                                    size={24}
+                                    className={star <= sessionReview.rating ? "fill-amber-400 text-amber-400" : "text-border/40 text-muted-foreground/30"}
+                                />
+                            ))}
+                            <span className="ml-2 text-sm font-bold text-text-strong">{sessionReview.rating} / 5</span>
+                        </div>
+                        {sessionReview.review ? (
+                            <div className="p-4 rounded-2xl bg-muted/20 border border-border/50">
+                                <p className="text-sm text-text-strong italic">"{sessionReview.review}"</p>
+                            </div>
+                        ) : (
+                            <p className="text-sm text-text-weak italic">No written comment provided.</p>
+                        )}
+                        <div className="flex justify-end">
+                            <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-700 border border-emerald-200">
+                                Submitted
+                            </span>
+                        </div>
+                    </div>
+                ) : (
+                    <div className="flex flex-col gap-6 max-w-xl">
+                        <div className="flex flex-col gap-2">
+                            <label className="text-sm font-bold text-text-strong">Rating</label>
+                            <div 
+                                className="flex items-center gap-2"
+                                onMouseLeave={() => setHoverRating(0)}
+                            >
+                                {[1, 2, 3, 4, 5].map((star) => (
+                                    <button
+                                        key={star}
+                                        type="button"
+                                        className="cursor-pointer transition-transform duration-200 hover:scale-110 focus:outline-none"
+                                        onClick={() => setRating(star)}
+                                        onMouseEnter={() => setHoverRating(star)}
+                                    >
+                                        <Star
+                                            size={32}
+                                            className={`transition-colors duration-200 ${
+                                                star <= (hoverRating || rating)
+                                                    ? "fill-amber-400 text-amber-400"
+                                                    : "text-border/40 text-muted-foreground/30 hover:text-amber-300"
+                                            }`}
+                                        />
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+
+                        <div className="flex flex-col gap-2">
+                            <label className="text-sm font-bold text-text-strong">Review Description (Optional)</label>
+                            <textarea
+                                value={reviewText}
+                                onChange={(e) => setReviewText(e.target.value)}
+                                placeholder="Share your experience with the teacher..."
+                                rows={4}
+                                className="w-full p-4 rounded-2xl bg-muted/20 border border-border/50 focus:border-primary/50 focus:ring-1 focus:ring-primary/50 outline-none transition-all resize-none text-sm text-text-strong placeholder:text-text-weak"
+                            />
+                        </div>
+
+                        <Button
+                            onClick={handleSubmitReview}
+                            disabled={rating === 0 || isCreatingSessionReview}
+                            className="w-full sm:w-auto self-start px-8 py-6 rounded-2xl bg-primary text-background font-bold hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 cursor-pointer"
+                        >
+                            {isCreatingSessionReview ? (
+                                <Spinner className="text-background" />
+                            ) : (
+                                "Submit Review"
+                            )}
+                        </Button>
+                    </div>
+                )}
             </div>
 
             {/* materials section */}

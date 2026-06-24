@@ -7,13 +7,14 @@ import { toast } from "sonner";
 
 interface StudentStore{
     student:Student | null;
+    loggedInStudentId:number;
     completed_sessions_count:number;
     upcomming_sessions_count:number;
     enrolled_courses_count:number;
     upcomming_sessions:Booking[];
     enrolled_courses:Enrollment[];
     setStudent:(student:Student)=>void;
-
+    getLoggedInStudentId:()=>Promise<void>;
     getStudent:()=>Promise<void>;
     isGettingStudent:boolean;
 
@@ -23,6 +24,7 @@ interface StudentStore{
 
 export const useStudentStore=create<StudentStore>((set)=>({
     student:null,
+    loggedInStudentId:-1,
     completed_sessions_count:0,
     upcomming_sessions_count:0,
     enrolled_courses_count:0,
@@ -47,6 +49,16 @@ export const useStudentStore=create<StudentStore>((set)=>({
             console.log(error.response?.data?.message);
         }finally{
             set({isGettingStudent:false});
+        }
+    },
+
+    getLoggedInStudentId:async()=>{
+        try {
+            const response=await axiosInstance.get('/student/get-student-id');
+            set({loggedInStudentId:response.data.student_id});
+            console.log(response.data);
+        } catch (error:any) {
+            console.log(error.response?.data?.message);
         }
     },
 

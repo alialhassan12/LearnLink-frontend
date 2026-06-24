@@ -3,6 +3,7 @@ import type { CoursePublish } from "../@types/coursePublish";
 import axiosInstance from "../lib/axios";
 import { toast } from "sonner";
 import type { Course } from "../@types/course";
+import type { CourseReview } from "../@types/courseReview";
 
 interface CourseFilter{
     category_id?:number;
@@ -62,10 +63,17 @@ interface CourseStore{
     //download course material
     downoladCourseMaterial:(materialId:number)=>Promise<any>;
     isDownloadingCourseMaterial:boolean;
+
+    // course reviews
+    courseReviews:CourseReview[];
+    isCreatingCourseReview:boolean;
+    createCourseReview:(course_id:number,rating:number,review_text?:string)=>Promise<void>;
 }
 
 export const useCourseStore = create<CourseStore>((set,get) => ({
     newCourse:null,
+    courseReviews:[],
+
     setNewCourse:(newCourse:Course)=>set((state)=>({...state,newCourse})),
     isPublishing:false,
     setIsPublishing:(isPublishing:boolean)=>set((state)=>({...state,isPublishing})),
@@ -240,7 +248,10 @@ export const useCourseStore = create<CourseStore>((set,get) => ({
         set({isGettingCourseWithMaterialsById:true});
         try {
             const response=await axiosInstance.get(`/courses/course/${id}`);
-            set({courseWithMaterials:response.data.course});
+            set({
+                courseWithMaterials:response.data.course,
+                courseReviews:response.data.course.course_reviews
+            });
             console.log(response.data.course);
             return true;
         } catch (error:any) {
@@ -339,6 +350,22 @@ export const useCourseStore = create<CourseStore>((set,get) => ({
             return error;
         }finally{
             set({isDownloadingCourseMaterial:false});
+        }
+    },
+
+    isCreatingCourseReview:false,
+    createCourseReview:async(course_id:number,rating:number,review_text?:string)=>{
+        set({isCreatingCourseReview:true});
+        try{
+            const response=await axiosInstance.post('/courses/review/new',{course_id,rating,review_text});
+            set({
+                courseReviews:[...get().courseReviews,response.data.review]
+            });
+            toast.success(response.data.message);
+        }catch(error:any){
+            toast.error(error.response?.data?.message || "An error occurred");
+        }finally{
+            set({isCreatingCourseReview:false});
         }
     }
 }));
