@@ -2,7 +2,7 @@ import useBrowseStore from "../../../store/studentmarketplaceStores/browseStore"
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "../../../components/ui/avatar";
-import { Globe, MapPin, User } from "lucide-react";
+import { Globe, MapPin, Star, User } from "lucide-react";
 import { Separator } from "../../../components/ui/separator";
 import { Input } from "../../../components/ui/input";
 import { Button } from "../../../components/ui/button";
@@ -191,6 +191,14 @@ const TeacherProfile = () => {
                 </Avatar>
                 <div className="flex flex-col text-center md:text-left md:pt-4">
                     <h1 className="text-3xl md:text-4xl font-extrabold text-text-strong">{teacher?.user?.name}</h1>
+                    {/* rating */}
+                    { teacher?.review_count > 0 && (
+                        <div className="flex items-center gap-1">
+                            <Star size={15} className="text-yellow-500"/>
+                            <span className="text-yellow-500 text-sm font-semibold ">{Number(teacher?.avg_rating).toFixed(1)}</span>
+                            <span className="text-sm text-text-weak">({teacher?.review_count} reviews)</span>
+                        </div>
+                    )}
                     <p className="text-lg text-primary font-medium mt-1">{teacher?.headline}</p>
                     <div className="flex flex-row items-center justify-center md:justify-start gap-3 mt-4 flex-wrap">
                         {/* languages */}

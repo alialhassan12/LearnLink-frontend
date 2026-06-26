@@ -1,4 +1,4 @@
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Star } from "lucide-react";
 import type { Course } from "../../@types/course";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
@@ -27,6 +27,11 @@ const CourseCard=({course}:{course:Course})=>{
             <div className="flex flex-col gap-2 p-4">
                 <span className="text-[10px] text-primary uppercase font-medium tracking-wider">{course.category?.title}</span>
                 <p className="text-text-strong line-clamp-2 text-base font-medium">{course.title}</p>
+                <div className="flex items-center gap-1 mt-2">
+                    <Star size={12} className="text-yellow-500"/>
+                    <span className="text-yellow-500 text-xs font-semibold ">{Number(course.course_reviews_avg_rating).toFixed(1)}</span>
+                    <span className="text-xs text-text-weak">({course.course_reviews_count} reviews)</span>
+                </div>
                 <div className="flex items-center gap-2">
                     <Avatar>
                         <AvatarFallback>{course.teacher.user.name.charAt(0)}</AvatarFallback>

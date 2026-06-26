@@ -2,6 +2,7 @@ import { Button } from "../ui/button";
 import type { Teacher } from "../../@types/teacher";
 import { useNavigate } from "react-router-dom";
 import ProTeacherBadge from "./ProTeacherBadge";
+import { Star } from "lucide-react";
 
 const TeacherCard = ({ teacher }: { teacher: Teacher }) => {
 
@@ -49,11 +50,13 @@ const TeacherCard = ({ teacher }: { teacher: Teacher }) => {
                         </div>
                         <div className="hidden sm:flex flex-col items-end shrink-0">
                             <div className="flex items-center gap-1">
-                                <div className="flex items-center text-yellow-500">
-                                    {/* Stars could go here if rating exists */}
-                                    <span className="text-sm font-bold text-text-strong ml-1">4.9</span>
+                                <div className="flex items-center">
+                                    <Star size={15} className="font-bold text-yellow-500"/>
+                                    <span className="text-sm font-bold  ml-1 text-yellow-500">
+                                        {teacher?.avg_rating}
+                                    </span>
                                 </div>
-                                <span className="text-xs text-text-weak">(120 reviews)</span>
+                                <span className="text-xs text-text-weak">({teacher?.review_count} reviews)</span>
                             </div>
                         </div>
                     </div>

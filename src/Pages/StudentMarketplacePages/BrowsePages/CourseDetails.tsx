@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { Separator } from "../../../components/ui/separator";
 import { Avatar, AvatarFallback, AvatarImage } from "../../../components/ui/avatar";
 import { Button } from "../../../components/ui/button";
-import { Bookmark, PlayCircle } from "lucide-react";
+import { Bookmark, PlayCircle, Star } from "lucide-react";
 import { Skeleton } from "../../../components/ui/skeleton";
 import { useCourseEnrollmentStore } from "../../../store/studentmarketplaceStores/courseEnrollmentStore";
 import useAuthStore from "../../../store/authStore";
@@ -125,8 +125,14 @@ const CourseDetails=()=>{
                         <div>
                             <h1 className="text-3xl font-bold text-text-strong">${course?.price}</h1>
                         </div>
+                        {/* rating */}
+                        <div className="flex items-center gap-1">
+                            <Star size={15} className="text-yellow-500"/>
+                            <span className="text-yellow-500 text-sm font-semibold ">{Number(course.course_reviews_avg_rating).toFixed(1)}</span>
+                            <span className="text-sm text-text-weak">({course.course_reviews_count} reviews)</span>
+                        </div>
                         {/* buttons */}
-                        <div className="flex flex-col gap-3 mt-2">
+                        <div className="flex flex-col gap-3">
                             {enrolledCoursesIds.includes(Number(id))
                                 ?(
                                     <Button 

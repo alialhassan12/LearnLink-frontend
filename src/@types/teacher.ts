@@ -24,4 +24,6 @@ export interface Teacher {
     courses?: Course[];
     published_courses?:Course[];
     user?:user;
+    avg_rating?:number;
+    review_count?:number;
 }

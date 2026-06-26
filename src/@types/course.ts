@@ -24,4 +24,7 @@ export interface Course{
     sections?:CourseSection[],
     enrollments?:Enrollment[],
     enrollments_count?:number,
+
+    course_reviews_avg_rating?:number;
+    course_reviews_count?:number;
 }
