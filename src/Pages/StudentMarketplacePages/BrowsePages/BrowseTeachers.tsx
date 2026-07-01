@@ -36,16 +36,11 @@ const BrowseTeachers = () => {
     }
 
     useEffect(() => {
-        if(languages.length === 0 && subjects.length === 0){
-            getFilters();
-        }
-        if(teachers.length === 0){
-            getTeachers();
-        }
+        getTeachers();
+        getFilters();
     }, []);
 
     // handlers
-
     const isLoading=isGettingFilters || isGettingTeachers;
     
     return (

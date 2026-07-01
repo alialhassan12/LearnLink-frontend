@@ -89,6 +89,7 @@ const EditCourse=()=>{
                         return{
                             ...s,
                             materials:[...s.materials,{
+                                id:-(s.materials?.length!+1),
                                 file:file,
                                 title:file.name,
                                 type:file.type.startsWith("video/")?"video":file.type.startsWith("image/")?"image":"document",

@@ -36,11 +36,11 @@ interface CourseStore{
     teacherCourses:Course[];
     getTeacherCourses:()=>Promise<boolean>;
     isGettingTeacherCourses:boolean;
+    maxCoursesAllowed:number;
 
     //all courses
     courses:Course[];
     coursePaginationData:CoursePaginationData | null;
-    maxCoursesAllowed:number;
     getCourses:(page?:number)=>Promise<boolean>;
     isGettingCourses:boolean,
 
