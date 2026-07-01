@@ -37,15 +37,15 @@ const EditCourse=()=>{
         if(id){
             const course=courseWithMaterials;
             setFormData({
-                course_id:course?.id,
-                teacher_id:course?.teacher_id,
-                category_id:course?.category_id,
-                title:course?.title,
-                description:course?.description,
-                thumbnail:course?.thumbnail,
-                language:course?.language,
-                price:course?.price as number,
-                sections:course?.sections as CourseSection[],
+                course_id: course?.id ?? 0,
+                teacher_id: course?.teacher_id ?? 0,
+                category_id: course?.category_id ?? 0,
+                title: course?.title ?? '',
+                description: course?.description ?? '',
+                thumbnail: course?.thumbnail ?? '',
+                language: course?.language ?? '',
+                price: course?.price as number ?? 0,
+                sections: course?.sections as CourseSection[],
             })
         }
     },[id]);
@@ -70,7 +70,7 @@ const EditCourse=()=>{
     const handleFileChange=(e:React.ChangeEvent<HTMLInputElement>)=>{
         const file=e.target.files?.[0];
         if(file){
-            setFormData((prev)=>({...prev,thumbnail:file}));
+            setFormData((prev)=>({...(prev as Course),thumbnail:file}));
         }
     }
 
@@ -86,7 +86,7 @@ const EditCourse=()=>{
 
                         return{
                             ...s,
-                            materials:[...s.materials,{
+                            materials:[...(s.materials ?? []),{
                                 id:-(s.materials?.length!+1),
                                 file:file,
                                 title:file.name,
@@ -278,7 +278,7 @@ const EditCourse=()=>{
                                                             <p className="text-sm font-medium line-clamp-1">{material.title}</p>
                                                         </div>
                                                         <Button 
-                                                            onClick={()=>handleDeleteMaterial(section?.id,material?.id)}
+                                                            onClick={()=>handleDeleteMaterial(section?.id ?? 0,material?.id ?? 0)}
                                                             variant="destructive" 
                                                             size="icon" 
                                                             className="h-8 w-8 cursor-pointer"
@@ -299,12 +299,12 @@ const EditCourse=()=>{
                                                 <Plus className="w-4 h-4"/>
                                                 <span className="text-sm font-medium ml-2">Add Material</span>
                                             </Button>
-                                            <input ref={addMaterialRef} type="file" className="hidden" onChange={(e)=>handleAddMaterial(section?.id,e)}/>
+                                            <input ref={addMaterialRef} type="file" className="hidden" onChange={(e)=>handleAddMaterial(section?.id ?? 0,e)}/>
                                         </div>
                                     </CollapsibleContent>
                                 </Collapsible>
                                 <Button 
-                                    onClick={()=>handleDeleteSection(section?.id)}
+                                    onClick={()=>handleDeleteSection(section?.id ?? 0)}
                                     className="cursor-pointer shrink-0 h-10" 
                                     variant="destructive" 
                                     size="icon"

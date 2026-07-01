@@ -1,7 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
-import useAuthStore from "../store/authStore";
 import Browse from "./StudentMarketplacePages/Browse";
 import BrowseTeachers from "./StudentMarketplacePages/BrowsePages/BrowseTeachers";
 import BrowseCourses from "./StudentMarketplacePages/BrowsePages/BrowseCourses";
@@ -18,8 +17,6 @@ import AiAssistantLayout from "./AiAssistantLayout";
 import EditProfile from "./StudentMarketplacePages/EditProfile";
 
 const StudentMarketPlace=()=>{
-    const authUser=useAuthStore((state)=>state.authUser);
-    const logout=useAuthStore((state)=>state.logout);
 
     return (
         <div>

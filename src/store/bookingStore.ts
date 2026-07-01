@@ -51,8 +51,8 @@ const useBookingStore =create<BookingStore>((set)=>({
             set({newBooking:response.data.booking});
             toast.success('Booking created successfully');
         }
-        catch(error){
-            toast.error('Failed to create booking: ',error.response?.data?.message || 'Unknown error');
+        catch(error: any){
+            toast.error('Failed to create booking: ',(error as any).response?.data?.message || 'Unknown error');
         } finally{
             set({isCreatingBooking:false});
         }
@@ -107,7 +107,7 @@ const useBookingStore =create<BookingStore>((set)=>({
                 const booking=response.data.booking;
                 const teacherBookings=state.teacherBookings?.filter((b)=>b.id!==booking_id);
                 return {
-                    teacherBookings: [...teacherBookings, booking]
+                    teacherBookings: [...(teacherBookings ?? []), booking]
                 };
             });
             toast.success(response.data.message);
@@ -128,7 +128,7 @@ const useBookingStore =create<BookingStore>((set)=>({
                 const booking=response.data.booking;
                 const teacherBookings=state.teacherBookings?.filter((b)=>b.id!==booking_id);
                 return {
-                    teacherBookings: [...teacherBookings, booking],
+                    teacherBookings: [...(teacherBookings ?? []), booking],
                     current_live_sessions:response.data.current_live_sessions
                 };
             });

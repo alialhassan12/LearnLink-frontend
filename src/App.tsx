@@ -119,7 +119,7 @@ function App() {
 
         <Route path='/room/:roomName' element={
           <ProtectedRoute allowedRoles={['student','teacher']}>
-            <SessionRoom token={token} serverUrl={url} session_id={session_id}/>
+            <SessionRoom token={token} serverUrl={url} session_id={session_id ?? 0}/>
           </ProtectedRoute>
         }>
 

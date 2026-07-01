@@ -34,16 +34,16 @@ const CourseCard=({course}:{course:Course})=>{
                 </div>
                 <div className="flex items-center gap-2">
                     <Avatar>
-                        <AvatarFallback>{course.teacher.user.name.charAt(0)}</AvatarFallback>
-                        <AvatarImage src={course.teacher.user.avatar_url}/>
+                        <AvatarFallback>{course.teacher?.user?.name?.charAt(0)}</AvatarFallback>
+                        <AvatarImage src={course.teacher?.user?.avatar_url}/>
                     </Avatar>
-                    <span className="text-sm text-text-strong">{course.teacher.user.name}</span>
+                    <span className="text-sm text-text-strong">{course.teacher?.user?.name}</span>
                 </div>
 
                 <Separator/>
                 <div className="flex flex-row justify-between items-center">
                     <p className="text-lg font-semibold text-primary">${course.price}</p>
-                    {enrolledCoursesIds.includes(course.id) ? (
+                    {enrolledCoursesIds.includes(course.id ?? 0) ? (
                         <Button
                             size="sm"
                             className="rounded-full bg-primary hover:bg-primary/80 text-white font-medium cursor-pointer"

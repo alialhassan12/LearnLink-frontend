@@ -1,7 +1,7 @@
 import { SidebarProvider, SidebarTrigger } from "../components/ui/sidebar"
 import { Separator } from "../components/ui/separator";
 import { TooltipProvider } from "../components/ui/tooltip";
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 
 import { ThemeToggle } from "../components/ThemeToggle";
 import { Avatar, AvatarFallback, AvatarImage } from "../components/ui/avatar";

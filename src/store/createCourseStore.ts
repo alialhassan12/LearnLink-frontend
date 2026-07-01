@@ -1,7 +1,4 @@
 import {create} from "zustand";
-import axiosInstance from "../lib/axios";
-import { toast } from "sonner";
-import type { CoursePublish } from "../@types/coursePublish";
 
 interface CreateCourseStoreState{
     courseData:{
@@ -10,7 +7,7 @@ interface CreateCourseStoreState{
         category_id:number,
         language:string,
         description:string,
-        thumbnail:File,
+        thumbnail: File | null,
         price:number
     },
     setCourseData:(courseData:{
@@ -19,7 +16,7 @@ interface CreateCourseStoreState{
         category_id:number,
         language:string,
         description:string,
-        thumbnail:File,
+        thumbnail: File | null,
         price:number
     })=>void,
     // image preview of thumbnail
@@ -97,7 +94,7 @@ const useCreateCourseStore=create<CreateCourseStoreState>((set)=>({
         })
     })),
 
-    clearCourseAndSectionData:()=>set((state)=>({...state,courseData:{title:"",teacher_id:0,category_id:0,language:"",description:"",thumbnail:null,price:0}
+    clearCourseAndSectionData:()=>set(()=>({courseData:{title:"",teacher_id:0,category_id:0,language:"",description:"",thumbnail:null,price:0}
                                                 ,courseSections:[],imagePreview:""})),
 
 }));

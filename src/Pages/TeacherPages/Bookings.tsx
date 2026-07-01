@@ -1,4 +1,4 @@
-import { Calendar, Check, ClipboardCheck, ClipboardClock, ClipboardX, Clock, MessageSquare, X } from "lucide-react";
+import { Calendar, Check, Clock, MessageSquare, X } from "lucide-react";
 import useBookingStore from "../../store/bookingStore";
 import { useEffect, useState } from "react";
 import { Separator } from "../../components/ui/separator";
@@ -7,9 +7,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "../../components/ui/avatar"
 import { Button } from "../../components/ui/button";
 import { Spinner } from "../../components/ui/spinner";
 import MessageButton from "../../components/MessageButton";
-import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
 import { toast } from "sonner";
-import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "../../components/ui/pagination";
+import { Pagination, PaginationContent, PaginationItem, PaginationNext, PaginationPrevious } from "../../components/ui/pagination";
 
 const Bookings = () => {
     const {teacherBookings,isGettingTeacherBookings,getTeacherBookings,teacherBookingsPagination,isRejectingBooking,rejectBooking,approveBooking,isApprovingBooking,max_live_sessions,current_live_sessions}=useBookingStore();
@@ -35,7 +34,7 @@ const Bookings = () => {
     //     }
     // ];
     const [filterTabs,setFilterTabs]=useState("all");
-    const filteredBookings = teacherBookings.filter((booking)=>filterTabs==="all"|| booking.status === filterTabs);
+    const filteredBookings = (teacherBookings ?? []).filter((booking)=>filterTabs==="all"|| booking.status === filterTabs);
 
     useEffect(() => {
         getTeacherBookings();
@@ -54,7 +53,7 @@ const Bookings = () => {
     if(isGettingTeacherBookings){
         return <SkeletonBookingState />;
     }
-    if(teacherBookings.length ===0){
+    if((teacherBookings ?? []).length ===0){
         return <EmptyBookingState />;
     }
 
@@ -114,13 +113,13 @@ const Bookings = () => {
                                 <div key={booking.id} className=" flex flex-col gap-2  bg-background border border-border/60 rounded-xl hover:shadow-md transition-all duration-200 p-4 group">
                                     <div className="flex items-center gap-4 w-full md:w-auto">
                                         <Avatar className="h-12 w-12 border-2 border-primary/10">
-                                            <AvatarImage src={booking.student.user?.avatar_url} />
+                                            <AvatarImage src={booking.student?.user?.avatar_url} />
                                             <AvatarFallback className="bg-primary/5 text-primary font-semibold">
-                                                {booking.student.user.name[0].toUpperCase()}
+                                                {booking.student?.user?.name?.[0]?.toUpperCase()}
                                             </AvatarFallback>
                                         </Avatar>
                                         <div className="flex flex-col">
-                                            <h2 className="text-lg font-semibold text-foreground group-hover:text-primary transition-colors">{booking.student.user.name}</h2>
+                                            <h2 className="text-lg font-semibold text-foreground group-hover:text-primary transition-colors">{booking.student?.user?.name}</h2>
                                         </div>
                                     </div>
                                     <div className="flex flex-row md:flex-col justify-between w-full md:w-auto gap-2 md:gap-1">
@@ -165,8 +164,8 @@ const Bookings = () => {
                                                     size="sm"
                                                     variant="outline"
                                                     onClick={() => {
-                                                        setSelectedBooking(booking.id);
-                                                        handleApproveBooking(booking.id)
+                                                        setSelectedBooking(booking.id ?? null);
+                                                        handleApproveBooking(booking.id ?? 0)
                                                     }}
                                                     className="flex-1 cursor-pointer"
                                                 >
@@ -186,8 +185,8 @@ const Bookings = () => {
                                                     size="sm"
                                                     variant="destructive"
                                                     onClick={() => {
-                                                        setSelectedBooking(booking.id);
-                                                        handleRejectBooking(booking.id)}}
+                                                        setSelectedBooking(booking.id ?? null);
+                                                        handleRejectBooking(booking.id ?? 0)}}
                                                     className="flex-1 cursor-pointer"
                                                 >
                                                     {isRejectingBooking && selectedBooking === booking.id ?(  
@@ -206,7 +205,7 @@ const Bookings = () => {
                                         )}
                                         {/* message btn */}
                                         <MessageButton
-                                            recieverUser={booking.student.user}
+                                            recieverUser={booking.student?.user!}
                                             variant="outline" 
                                             className="h-10 w-full mt-2 text-muted-foreground hover:text-primary hover:bg-primary/10 ml-auto md:ml-0 cursor-pointer"
                                             
@@ -227,7 +226,7 @@ const Bookings = () => {
                         </div>
                     )}
                     {
-                        teacherBookings.length===0 &&
+                        (teacherBookings ?? []).length===0 &&
                         <div className=" text-center py-12 border border-dashed border-border rounded-xl col-span-full">
                             <p className="text-muted-foreground font-medium">No bookings found for this filter.</p>
                         </div>
@@ -247,7 +246,7 @@ const Bookings = () => {
                             className={`${teacherBookingsPagination?.current_page===1 ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}`}
                         />
                     </PaginationItem>
-                    {Array.from({length:teacherBookingsPagination?.last_page}, (_, i)=>i+1).map((page)=>( 
+                    {Array.from({length: teacherBookingsPagination?.last_page ?? 0}, (_, i)=>i+1).map((page)=>( 
                         <PaginationItem 
                             key={page}
                             className={`px-3 py-1 rounded-full ${teacherBookingsPagination?.current_page===page ? 'bg-bg-2' : ''}`}

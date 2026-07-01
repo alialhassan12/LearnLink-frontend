@@ -43,11 +43,11 @@ const TeacherFilterSection = ({ subjects, languages, isGettingFilters }: { subje
                                         <Checkbox
                                             id={`filter-subject-${subject}`}
                                             value={subject}
-                                            checked={teacherFilter.subjects.includes(subject)}
+                                            checked={(teacherFilter.subjects ?? []).includes(subject)}
                                             onCheckedChange={()=>{
                                                 setTeacherFilter({
                                                     ...teacherFilter,
-                                                    subjects:teacherFilter.subjects.includes(subject)?teacherFilter.subjects.filter((s)=>s!==subject):[...teacherFilter.subjects,subject]
+                                                    subjects:(teacherFilter.subjects ?? []).includes(subject)?(teacherFilter.subjects ?? []).filter((s)=>s!==subject):[...(teacherFilter.subjects ?? []),subject]
                                                 });
                                             }}
                                             className="border-text-weak group-hover:border-primary"

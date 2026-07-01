@@ -128,14 +128,14 @@ export const useCourseStore = create<CourseStore>((set,get) => ({
         set({isSavingDraft:true});
         try{
             const formData = new FormData();
-            formData.append('category_id', String(data?.category_id));
-            formData.append('title', data?.title);
-            formData.append('description', data?.description);
+            formData.append('category_id', String(data?.category_id ?? 0));
+            formData.append('title', data?.title ?? '');
+            formData.append('description', data?.description ?? '');
             if (data?.thumbnail) {
                 formData.append('thumbnail', data?.thumbnail);
             }
-            formData.append('language', data?.language);
-            formData.append('price', String(data?.price));
+            formData.append('language', data?.language ?? '');
+            formData.append('price', String(data?.price ?? 0));
 
             data?.sections?.forEach((section, index) => {
                 formData.append(`sections[${index}][title]`, section?.title);
@@ -290,7 +290,7 @@ export const useCourseStore = create<CourseStore>((set,get) => ({
                     }
                     formData.append(`sections[${index}][materials][${mIndex}][title]`, material?.title);
                     formData.append(`sections[${index}][materials][${mIndex}][type]`, material?.type);
-                    formData.append(`sections[${index}][materials][${mIndex}][size]`, String(Math.round(material?.size)));
+                    formData.append(`sections[${index}][materials][${mIndex}][size]`, String(Math.round(material?.size ?? 0)));
                     if (material?.file) {
                         formData.append(`sections[${index}][materials][${mIndex}][file]`, material?.file);
                     }
