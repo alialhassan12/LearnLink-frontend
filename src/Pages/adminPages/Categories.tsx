@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAdminCategoryStore } from "../../store/adminDashboardStores/adminCatgoryStore";
 import { Button } from "../../components/ui/button";
-import { Ban, CheckCircle2, Delete, Edit, Eye, MoreVertical, Plus, Search, View } from "lucide-react";
+import { Ban, CheckCircle2, Delete, Edit, MoreVertical, Plus, Search } from "lucide-react";
 import { Input } from "../../components/ui/input";
 import { DropdownMenu,DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../../components/ui/dropdown-menu";
 import { Skeleton } from "../../components/ui/skeleton";

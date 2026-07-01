@@ -12,9 +12,7 @@ import { Button } from "../../components/ui/button";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "../../components/ui/collapsible";
 import AddSection from "../../components/teacherDashboardComponents/AddSection";
 import { Spinner } from "../../components/ui/spinner";
-import { toast } from "sonner";
 import { Skeleton } from "../../components/ui/skeleton";
-import type { CourseMaterial } from "../../@types/courseMaterials";
 
 const EditCourse=()=>{
     const {id}=useParams();

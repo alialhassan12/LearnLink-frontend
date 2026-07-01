@@ -12,7 +12,7 @@ import {
     SidebarTrigger
 } from "../ui/sidebar"
 import {ThemeToggle} from "../ThemeToggle"
-import { BookOpen, Calendar, DollarSign, GraduationCap, LayoutDashboard, MessageCircle, Video, LogOut, User, Users, Tag, Boxes } from "lucide-react";
+import { GraduationCap, LayoutDashboard,LogOut, Users, Tag, Boxes } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 import useAuthStore from "../../store/authStore";
 import { Spinner } from "../ui/spinner";

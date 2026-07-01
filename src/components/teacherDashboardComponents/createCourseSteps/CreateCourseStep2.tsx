@@ -8,7 +8,6 @@ import { toast } from "sonner";
 
 const CreateCourseStep2=()=>{
     const {courseData, courseSections, addCourseSection, addFileToSection,removeFileFromSection}=useCreateCourseStore();
-    const [openFolder,setOpenFolder]=useState<boolean>(false);
     const [sectionName,setSectionName]=useState<string>("");
     const [selectedSection,setSelectedSection]=useState<string>("");
     const [openAddSection,setOpenAddSection]=useState<boolean>(false);

@@ -16,7 +16,6 @@ import Categories from "./adminPages/Categories";
 
 const AdminDashboard=()=>{
     const {authUser}=useAuthStore();
-    const navigate=useNavigate();
 
     return(
         <SidebarProvider>

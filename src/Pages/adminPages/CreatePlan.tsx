@@ -1,4 +1,4 @@
-import { Bolt, Check, CircleCheck, Currency, Eye, Info, Plus, Settings, Trash } from "lucide-react";
+import { Bolt, CircleCheck, Eye, Info, Plus, Settings, Trash } from "lucide-react";
 import { Input } from "../../components/ui/input";
 import { Textarea } from "../../components/ui/textarea";
 import { NativeSelect, NativeSelectOption } from "../../components/ui/native-select";

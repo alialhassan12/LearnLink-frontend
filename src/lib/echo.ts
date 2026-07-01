@@ -25,7 +25,7 @@ const echo = new Echo({
 
     enabledTransports: ['ws', 'wss'],
 
-    authorizer: (channel: any, options: any) => {
+    authorizer: (channel: any) => {
         return {
             authorize: (socketId: string, callback: Function) => {
                 axiosInstance.post('/broadcasting/auth', {

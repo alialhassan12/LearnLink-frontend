@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import useCreateCourseStore from "../../../store/createCourseStore";
 import { Field, FieldGroup, FieldLabel } from "../../ui/field";
 import { Input } from "../../ui/input";

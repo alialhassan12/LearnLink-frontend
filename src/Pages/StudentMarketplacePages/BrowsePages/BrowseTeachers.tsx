@@ -2,7 +2,7 @@ import { Search } from "lucide-react";
 import { Button } from "../../../components/ui/button";
 import { Input } from "../../../components/ui/input";
 import useBrowseStore from "../../../store/studentmarketplaceStores/browseStore";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Skeleton } from "../../../components/ui/skeleton";
 // import { NativeSelect, NativeSelectOption } from "../../../components/ui/native-select";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "../../../components/ui/sheet";

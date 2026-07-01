@@ -3,7 +3,7 @@ import { ThemeToggle } from "./ThemeToggle";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import useAuthStore from "../store/authStore";
 import { Separator } from "./ui/separator";
-import { Bell, Sparkle, Sparkles } from "lucide-react";
+import { Bell, Sparkles } from "lucide-react";
 import { Button } from "./ui/button";
 
 const Header = () => {

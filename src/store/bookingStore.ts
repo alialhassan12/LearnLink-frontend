@@ -40,7 +40,7 @@ interface BookingStore{
     current_live_sessions:number;
 }
 
-const useBookingStore =create<BookingStore>((set,get)=>({
+const useBookingStore =create<BookingStore>((set)=>({
     newBooking:null,
     
     isCreatingBooking:false,

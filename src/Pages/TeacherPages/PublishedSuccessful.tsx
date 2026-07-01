@@ -1,4 +1,4 @@
-import { ArrowLeft, Home, Sparkles } from "lucide-react";
+import { ArrowLeft, Sparkles } from "lucide-react";
 import { Button } from "../../components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { useCourseStore } from "../../store/courseStore";
