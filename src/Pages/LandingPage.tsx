@@ -3,6 +3,7 @@ import Footer from "../components/Footer";
 import Header from "../components/Header";
 import {Calendar, Lock, MessageCircle, Sparkles, Tag, Video} from 'lucide-react'
 import useAuthStore from "../store/authStore";
+import heroImg from "../assets/hero.webp";
 
 const LandingPage = () => {
     const {authUser}=useAuthStore();
@@ -103,7 +104,7 @@ const LandingPage = () => {
                 {/* right */}
                 <div data-aos="fade-left" className="w-[50%]">
                     <div className="rounded-3xl shadow-xl shadow-primary/20 hover:shadow-2xl hover:shadow-primary/40 hover:scale-105 transition-all duration-300 ease-in-out">
-                        <img className="w-full rounded-3xl" src="/src/assets/hero.webp" alt="Hero" />
+                        <img className="w-full rounded-3xl" src={heroImg} alt="Hero" />
                     </div>
                 </div>
 
