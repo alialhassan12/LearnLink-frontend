@@ -17,9 +17,8 @@ const echo = new Echo({
 
     wsHost: import.meta.env.VITE_REVERB_HOST,
 
-    wsPort: Number(
-        import.meta.env.VITE_REVERB_PORT
-    ),
+    wsPort: import.meta.env.VITE_REVERB_PORT ? Number(import.meta.env.VITE_REVERB_PORT) : undefined,
+    wssPort: import.meta.env.VITE_REVERB_PORT ? Number(import.meta.env.VITE_REVERB_PORT) : undefined,
 
     forceTLS: false,
 
