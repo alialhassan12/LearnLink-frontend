@@ -233,6 +233,7 @@ export const useCourseStore = create<CourseStore>((set,get) => ({
         try{
             const response=await axiosInstance.get(`/courses/get-course/${id}`);
             set({course:response.data.course});
+            console.log(response.data.course);
             return true;
         }catch(error:any){
             toast.error(error.response?.data?.message || "An error occurred");
