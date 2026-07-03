@@ -128,8 +128,8 @@ const CourseDetails=()=>{
                         {/* rating */}
                         <div className="flex items-center gap-1">
                             <Star size={15} className="text-yellow-500"/>
-                            <span className="text-yellow-500 text-sm font-semibold ">{Number(course.course_reviews_avg_rating ?? 0).toFixed(1)}</span>
-                            <span className="text-sm text-text-weak">({course.course_reviews_count ?? 0} reviews)</span>
+                            {/* <span className="text-yellow-500 text-sm font-semibold ">{Number(course.course_reviews_avg_rating ?? 0).toFixed(1)}</span>
+                            <span className="text-sm text-text-weak">({course.course_reviews_count ?? 0} reviews)</span> */}
                         </div>
                         {/* buttons */}
                         <div className="flex flex-col gap-3">
