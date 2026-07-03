@@ -64,6 +64,7 @@ const SessionView =()=>{
     // handle file upload
     const handleFileUpload =(e:React.ChangeEvent<HTMLInputElement>)=>{
         const file=e.target.files?.[0];
+        if (!file) return;
         if(file){
             setFilesData((prev)=>[...prev,{
                 fileTitle:file.name,

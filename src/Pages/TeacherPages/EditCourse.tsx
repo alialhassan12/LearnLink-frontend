@@ -69,6 +69,7 @@ const EditCourse=()=>{
 
     const handleFileChange=(e:React.ChangeEvent<HTMLInputElement>)=>{
         const file=e.target.files?.[0];
+        if (!file) return;
         if(file){
             setFormData((prev)=>({...(prev as Course),thumbnail:file}));
         }
@@ -76,6 +77,7 @@ const EditCourse=()=>{
 
     const handleAddMaterial=(sectionId:number,e:React.ChangeEvent<HTMLInputElement>)=>{
         const file=e.target.files?.[0];
+        if (!file) return;
         if(file){
             setFormData((prev)=>{
                 if(!prev) return null;
