@@ -1,5 +1,6 @@
 import { Button } from "../../components/ui/button";
 import { useNavigate } from "react-router-dom";
+import RightImg from '/src/assets/browsehero.png';
 
 const Browse =()=>{
     const navigator=useNavigate();
@@ -30,7 +31,7 @@ const Browse =()=>{
                 {/* right */}
                 <div data-aos="fade-left" className="w-[50%] flex justify-center">
                     <div className="rounded-3xl shadow-xl shadow-primary/20 hover:shadow-2xl hover:shadow-primary/40 rotate-5 hover:rotate-0 transition-all duration-300 ease-in-out">
-                        <img className="w-full rounded-3xl" src="/src/assets/browsehero.png" alt="Hero" />
+                        <img className="w-full rounded-3xl" src={RightImg} alt="Hero" />
                     </div>
                 </div>
             </div>
