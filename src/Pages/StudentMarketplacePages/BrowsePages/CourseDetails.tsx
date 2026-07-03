@@ -126,11 +126,20 @@ const CourseDetails=()=>{
                             <h1 className="text-3xl font-bold text-text-strong">${course?.price}</h1>
                         </div>
                         {/* rating */}
-                        <div className="flex items-center gap-1">
-                            <Star size={15} className="text-yellow-500"/>
-                            {/* <span className="text-yellow-500 text-sm font-semibold ">{Number(course.course_reviews_avg_rating ?? 0).toFixed(1)}</span>
-                            <span className="text-sm text-text-weak">({course.course_reviews_count ?? 0} reviews)</span> */}
-                        </div>
+                        {(course?.course_reviews_avg_rating && course?.course_reviews_count) && (
+                            <div className="flex items-center gap-1">
+                                <Star size={15} className="text-yellow-500"/>
+                                <span className="text-yellow-500 text-sm font-semibold ">{Number(course.course_reviews_avg_rating).toFixed(1)}</span>
+                                <span className="text-sm text-text-weak">({course.course_reviews_count} reviews)</span>
+                            </div>
+                        )}
+                        {(!course?.course_reviews_avg_rating && !course?.course_reviews_count) && (
+                            <div className="flex items-center gap-1">
+                                <Star size={15} className="text-yellow-500"/>
+                                <span className="text-yellow-500 text-sm font-semibold ">0</span>
+                                <span className="text-sm text-text-weak">No reviews yet</span>
+                            </div>
+                        )}
                         {/* buttons */}
                         <div className="flex flex-col gap-3">
                             {enrolledCoursesIds.includes(Number(id))
