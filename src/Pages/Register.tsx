@@ -135,9 +135,9 @@ const Register = () => {
         <>
             <Header/>
 
-            <div className="flex flex-row bg-bg-2">
+            <div className="flex flex-col lg:flex-row bg-bg-2 min-h-screen">
                 {/* left */}
-                <div className="w-[50%] flex flex-col gap-4 justify-center items-start p-20 bg-primary text-white" data-aos="fade-right">
+                <div className="hidden lg:flex w-full lg:w-[50%] flex-col gap-4 justify-center items-start p-10 lg:p-20 bg-primary text-white" data-aos="fade-right">
                     <div className="flex flex-row gap-2 text-2xl justify-center items-center mb-3">
                         <GraduationCap size={40}/>
                         LearnLink
@@ -167,14 +167,14 @@ const Register = () => {
                 </div>
 
                 {/* right */}
-                <div className="w-[50%] h-full flex flex-col justify-center items-start pl-10 pr-20 py-16" data-aos="fade-left">
+                <div className="w-full lg:w-[50%] h-full flex flex-col justify-center items-start px-6 sm:px-10 lg:pl-10 lg:pr-20 py-10 lg:py-16" data-aos="fade-left">
                     {/* title */}
                     <div className="flex flex-col gap-2">
-                        <p className="text-text-strong text-2xl font-bold">Create Account</p>
+                        <p className="text-text-strong text-xl sm:text-2xl font-bold">Create Account</p>
                         <p className="text-text-weak text-md">Get started with your LearnLink journey today</p>
                     </div>
                     {/* form */}
-                    <form onSubmit={handleSubmit} className="w-full mt-10">
+                    <form onSubmit={handleSubmit} className="w-full mt-6 sm:mt-10">
                         <FieldGroup>
                             <Field>
                                 <FieldLabel>Full Name</FieldLabel>

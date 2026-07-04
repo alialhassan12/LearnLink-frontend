@@ -234,7 +234,7 @@ const MessagesLayout=()=>{
             </div>
 
             {/* messages area */}
-            <div className={`flex-1 mr-6 h-full bg-background/50 ${activeConversation ? 'flex flex-col' : 'hidden md:flex md:items-center md:justify-center'}`}>
+            <div className={`flex-1 h-full bg-background/50 ${activeConversation ? 'flex flex-col' : 'hidden md:flex md:items-center md:justify-center'}`}>
                 {
                     activeConversation == null ? (
                         <div className="flex flex-col justify-center items-center text-center p-8 max-w-sm mx-auto animate-in fade-in zoom-in duration-500">
