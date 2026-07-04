@@ -106,9 +106,9 @@ const MessagesLayout=()=>{
                 });
             });
 
-        return () => {
-            echo.leave(channelName);
-        };
+        // return () => {
+        //     echo.leave(channelName);
+        // };
     }, [activeConversation]);
 
     // Auto-scroll on new messages or when sending
