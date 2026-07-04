@@ -81,7 +81,7 @@ const Login = () => {
     return (
         <>
             <Header/>
-            <div className="flex flex-col justify-center items-center h-screen bg-bg-2">
+            <div className="flex flex-col justify-center items-center min-h-screen bg-bg-2 px-4 sm:px-6 py-10">
                 <div className="" data-aos="zoom-in">
                     {/* title */}
                     <div className="flex flex-row justify-center items-center gap-3 text-primary text-2xl font-bold mb-10">
@@ -89,7 +89,7 @@ const Login = () => {
                         <p>LearnLink</p>
                     </div>
                     {/* form */}
-                    <form onSubmit={handleSubmit} className="bg-bg-1 border border-gray-400/30 flex flex-col justify-center items-center shadow-2xl shadow-primary/30 rounded-lg p-10">
+                    <form onSubmit={handleSubmit} className="bg-bg-1 border border-gray-400/30 flex flex-col justify-center items-center shadow-2xl shadow-primary/30 rounded-lg p-6 sm:p-10 w-full max-w-md">
                         <div className="flex flex-col items-center gap-2 mb-10">
                             <p className="text-text-strong font-bold text-2xl">Welcome Back</p>
                             <p className="text-text-weak text-sm">Access your teaching and learning dashboard.</p>
