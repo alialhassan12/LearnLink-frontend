@@ -25,11 +25,76 @@ import {
     DollarSign
 } from "lucide-react";
 import type { Booking } from "../../@types/booking";
+import { useIsMobile } from "../../hooks/use-mobile";
+
+interface StatsProps {
+    className?: string;
+    totalBookings: number;
+    approvedBookingsCount: number;
+    pendingBookingsCount: number;
+    estimatedRevenue: number;
+}
+
+const StatsPanel = ({ 
+    className = "", 
+    totalBookings, 
+    approvedBookingsCount, 
+    pendingBookingsCount, 
+    estimatedRevenue 
+}: StatsProps) => {
+    return (
+        <div className={`bg-card border border-border/60 rounded-2xl p-5 flex flex-col gap-4 shadow-xs ${className}`}>
+            <div className="flex items-center gap-2 font-semibold text-text-strong">
+                <TrendingUp className="w-5 h-5 text-primary animate-pulse" />
+                <span>Schedule Stats</span>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-1 gap-3">
+                <div className="flex justify-between items-center p-3 bg-secondary/15 rounded-xl border border-border/30 hover:scale-[1.02] hover:border-primary/30 transition-all duration-300">
+                    <div className="flex items-center gap-2.5">
+                        <div className="p-1.5 bg-primary/10 rounded-md">
+                            <CalendarIcon className="w-4 h-4 text-primary" />
+                        </div>
+                        <span className="text-sm font-medium text-text-strong">Total Bookings</span>
+                    </div>
+                    <span className="font-bold text-lg text-text-strong">{totalBookings}</span>
+                </div>
+                <div className="flex justify-between items-center p-3 bg-secondary/15 rounded-xl border border-border/30 hover:scale-[1.02] hover:border-emerald-500/30 transition-all duration-300">
+                    <div className="flex items-center gap-2.5">
+                        <div className="p-1.5 bg-emerald-500/10 rounded-md">
+                            <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                        </div>
+                        <span className="text-sm font-medium text-text-strong">Approved</span>
+                    </div>
+                    <span className="font-bold text-lg text-emerald-600 dark:text-emerald-400">{approvedBookingsCount}</span>
+                </div>
+                <div className="flex justify-between items-center p-3 bg-secondary/15 rounded-xl border border-border/30 hover:scale-[1.02] hover:border-amber-500/30 transition-all duration-300">
+                    <div className="flex items-center gap-2.5">
+                        <div className="p-1.5 bg-amber-500/10 rounded-md">
+                            <AlertCircle className="w-4 h-4 text-amber-600 dark:text-amber-400" />
+                        </div>
+                        <span className="text-sm font-medium text-text-strong">Pending</span>
+                    </div>
+                    <span className="font-bold text-lg text-amber-600 dark:text-amber-400">{pendingBookingsCount}</span>
+                </div>
+                <div className="flex justify-between items-center p-3 bg-secondary/15 rounded-xl border border-border/30 hover:scale-[1.02] hover:border-primary/30 transition-all duration-300">
+                    <div className="flex items-center gap-2.5">
+                        <div className="p-1.5 bg-primary/10 rounded-md">
+                            <DollarSign className="w-4 h-4 text-primary" />
+                        </div>
+                        <span className="text-sm font-medium text-text-strong">Est. Earnings</span>
+                    </div>
+                    <span className="font-bold text-lg text-primary">${estimatedRevenue}</span>
+                </div>
+            </div>
+        </div>
+    );
+};
 
 export default function Calendar() {
     const { isGettingTeacherEvents, getTeacherEvents, teacherEvents } = useCalendarStore();
     const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
     const [isDetailsOpen, setIsDetailsOpen] = useState(false);
+    const isMobile = useIsMobile();
 
     useEffect(() => {
         getTeacherEvents();
@@ -75,18 +140,29 @@ export default function Calendar() {
     }
 
     return (
-        <div className="flex flex-col gap-6 w-full animate-fade-in">
+        <div className="flex flex-col gap-6 w-full animate-fade-in p-1 sm:p-2">
             {/* Header section */}
-            <div className="flex flex-col gap-1">
-                <h1 className="text-2xl font-medium text-text-strong">Schedule Calendar</h1>
+            <div className="flex flex-col gap-1.5 border-b border-border/40 pb-4">
+                <span className="text-xs text-primary font-bold tracking-wider uppercase">Schedule Planner</span>
+                <h1 className="text-2xl font-extrabold text-text-strong tracking-tight">Schedule Calendar</h1>
                 <p className="text-sm text-text-weak">Manage and view your upcoming teaching slots, classes, and student bookings.</p>
             </div>
 
+            {/* Stats section at top on mobile/tablet, hidden on desktop */}
+            <div className="block lg:hidden w-full">
+                <StatsPanel
+                    totalBookings={totalBookings}
+                    approvedBookingsCount={approvedBookingsCount}
+                    pendingBookingsCount={pendingBookingsCount}
+                    estimatedRevenue={estimatedRevenue}
+                />
+            </div>
+
             {/* Main Grid Layout */}
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start w-full">
                 
-                {/* Left Side: FullCalendar */}
-                <div className="lg:col-span-8 xl:col-span-9 bg-card border border-border/60 rounded-xl p-5 shadow-xs relative">
+                {/* Left/Main Side: FullCalendar */}
+                <div className="lg:col-span-8 xl:col-span-9 bg-card border border-border/60 rounded-2xl p-4 sm:p-5 shadow-xs relative overflow-hidden">
                     <style>{`
                         /* CSS OVERRIDES FOR FULLCALENDAR TO MATCH THE SHADCN STYLE */
                         .fc {
@@ -102,18 +178,40 @@ export default function Calendar() {
                             --fc-today-bg-color: var(--bg-2);
                             font-family: inherit;
                         }
+                        
+                        .fc-theme-standard {
+                            border-radius: var(--radius-lg);
+                            overflow: hidden;
+                        }
+                        
+                        .fc-theme-standard .fc-scrollgrid {
+                            border-radius: var(--radius-lg) !important;
+                            border: 1px solid var(--border) !important;
+                            overflow: hidden;
+                        }
+
                         .fc .fc-toolbar-title {
                             font-size: 1.125rem;
                             font-weight: 600;
                             color: var(--text-strong);
                         }
                         .fc .fc-button {
-                            padding: 0.375rem 0.75rem;
+                            padding: 0.4rem 0.8rem;
                             font-size: 0.875rem;
                             font-weight: 500;
                             border-radius: var(--radius-md) !important;
-                            transition: all 0.2s ease;
+                            transition: all 0.2s ease-in-out;
                             text-transform: capitalize;
+                            border: 1px solid var(--border) !important;
+                            background-color: var(--bg-1) !important;
+                            color: var(--text-strong) !important;
+                            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+                        }
+                        .fc .fc-button:hover {
+                            background-color: var(--bg-2) !important;
+                            border-color: var(--border) !important;
+                            color: var(--text-strong) !important;
+                            transform: translateY(-0.5px);
                         }
                         .fc .fc-button-primary:not(:disabled).fc-button-active,
                         .fc .fc-button-primary:not(:disabled):active {
@@ -128,10 +226,16 @@ export default function Calendar() {
                             border-color: var(--border) !important;
                         }
                         .fc-col-header-cell {
-                            padding: 0.5rem 0 !important;
                             font-weight: 600;
                             color: var(--text-strong);
                             background-color: var(--bg-2);
+                        }
+                        .fc-col-header-cell-cushion {
+                            font-size: 0.825rem;
+                            text-transform: uppercase;
+                            letter-spacing: 0.05em;
+                            padding: 8px 0 !important;
+                            display: inline-block;
                         }
                         .fc-daygrid-day {
                             transition: background-color 0.2s ease;
@@ -142,11 +246,23 @@ export default function Calendar() {
                         .fc-day-today {
                             background-color: var(--fc-today-bg-color) !important;
                         }
+                        .fc-day-today .fc-daygrid-day-number {
+                            color: var(--primary) !important;
+                            font-weight: 700;
+                        }
+                        .fc-daygrid-day-number {
+                            font-size: 0.825rem;
+                            font-weight: 500;
+                            color: var(--text-strong);
+                            padding: 6px 8px !important;
+                        }
                         .fc-event {
                             border: none !important;
                             background: transparent !important;
                             padding: 0 !important;
-                            margin: 1px 2px !important;
+                            margin: 2px 4px !important;
+                            border-radius: var(--radius-sm) !important;
+                            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
                         }
                         .fc-h-event {
                             background-color: transparent !important;
@@ -164,16 +280,44 @@ export default function Calendar() {
                         .fc .fc-button-primary:disabled {
                             opacity: 0.5;
                         }
+                        
+                        @media (max-width: 768px) {
+                            .fc .fc-toolbar {
+                                flex-direction: column;
+                                gap: 0.75rem;
+                                align-items: center;
+                            }
+                            .fc .fc-toolbar-title {
+                                font-size: 1.125rem !important;
+                                text-align: center;
+                            }
+                            .fc .fc-button {
+                                padding: 0.3rem 0.6rem !important;
+                                font-size: 0.75rem !important;
+                            }
+                            .fc-header-toolbar {
+                                margin-bottom: 1rem !important;
+                            }
+                        }
                     `}</style>
                     <FullCalendar
                         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-                        initialView="dayGridMonth"
-                        headerToolbar={{
-                            left: "prev,next today",
-                            center: "title",
-                            right: "dayGridMonth,timeGridWeek,timeGridDay",
-                        }}
+                        initialView={isMobile ? "timeGridDay" : "dayGridMonth"}
+                        headerToolbar={
+                            isMobile 
+                            ? {
+                                left: "prev,next",
+                                center: "title",
+                                right: "dayGridMonth,timeGridDay",
+                              }
+                            : {
+                                left: "prev,next today",
+                                center: "title",
+                                right: "dayGridMonth,timeGridWeek,timeGridDay",
+                              }
+                        }
                         nowIndicator={true}
+                        dayMaxEvents={isMobile ? 2 : 3}
                         validRange={{
                             start: new Date().toISOString().split("T")[0],
                         }}
@@ -204,54 +348,17 @@ export default function Calendar() {
                 {/* Right Side: Stats and Upcoming List */}
                 <div className="lg:col-span-4 xl:col-span-3 flex flex-col gap-6 w-full">
                     
-                    {/* Quick Stats Panel */}
-                    <div className="bg-card border border-border/60 rounded-xl p-5 flex flex-col gap-4">
-                        <div className="flex items-center gap-2 font-semibold text-text-strong">
-                            <TrendingUp className="w-5 h-5 text-primary" />
-                            <span>Schedule Stats</span>
-                        </div>
-                        <div className="grid grid-cols-1 gap-3">
-                            <div className="flex justify-between items-center p-3 bg-secondary/15 rounded-lg border border-border/30">
-                                <div className="flex items-center gap-2.5">
-                                    <div className="p-1.5 bg-primary/10 rounded-md">
-                                        <CalendarIcon className="w-4 h-4 text-primary" />
-                                    </div>
-                                    <span className="text-sm font-medium text-text-strong">Total Bookings</span>
-                                </div>
-                                <span className="font-bold text-lg text-text-strong">{totalBookings}</span>
-                            </div>
-                            <div className="flex justify-between items-center p-3 bg-secondary/15 rounded-lg border border-border/30">
-                                <div className="flex items-center gap-2.5">
-                                    <div className="p-1.5 bg-emerald-500/10 rounded-md">
-                                        <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-                                    </div>
-                                    <span className="text-sm font-medium text-text-strong">Approved</span>
-                                </div>
-                                <span className="font-bold text-lg text-emerald-600 dark:text-emerald-400">{approvedBookingsCount}</span>
-                            </div>
-                            <div className="flex justify-between items-center p-3 bg-secondary/15 rounded-lg border border-border/30">
-                                <div className="flex items-center gap-2.5">
-                                    <div className="p-1.5 bg-amber-500/10 rounded-md">
-                                        <AlertCircle className="w-4 h-4 text-amber-600 dark:text-amber-400" />
-                                    </div>
-                                    <span className="text-sm font-medium text-text-strong">Pending</span>
-                                </div>
-                                <span className="font-bold text-lg text-amber-600 dark:text-amber-400">{pendingBookingsCount}</span>
-                            </div>
-                            <div className="flex justify-between items-center p-3 bg-secondary/15 rounded-lg border border-border/30">
-                                <div className="flex items-center gap-2.5">
-                                    <div className="p-1.5 bg-primary/10 rounded-md">
-                                        <DollarSign className="w-4 h-4 text-primary" />
-                                    </div>
-                                    <span className="text-sm font-medium text-text-strong">Est. Earnings</span>
-                                </div>
-                                <span className="font-bold text-lg text-primary">${estimatedRevenue}</span>
-                            </div>
-                        </div>
-                    </div>
+                    {/* Quick Stats Panel (Desktop only) */}
+                    <StatsPanel
+                        className="hidden lg:flex"
+                        totalBookings={totalBookings}
+                        approvedBookingsCount={approvedBookingsCount}
+                        pendingBookingsCount={pendingBookingsCount}
+                        estimatedRevenue={estimatedRevenue}
+                    />
 
                     {/* Upcoming Sessions List */}
-                    <div className="bg-card border border-border/60 rounded-xl p-5 flex flex-col gap-4">
+                    <div className="bg-card border border-border/60 rounded-2xl p-5 flex flex-col gap-4 shadow-xs">
                         <div className="flex items-center justify-between">
                             <span className="font-semibold text-text-strong">Upcoming Sessions</span>
                             <span className="text-[10px] font-bold uppercase px-2 py-0.5 bg-primary/10 text-primary rounded-full">Next 5</span>
@@ -265,7 +372,7 @@ export default function Calendar() {
                                             setSelectedBooking(event);
                                             setIsDetailsOpen(true);
                                         }}
-                                        className="flex items-start gap-3 p-3 bg-secondary/10 hover:bg-secondary/20 border border-border/40 rounded-lg cursor-pointer transition-all duration-200 group"
+                                        className="flex items-start gap-3 p-3 bg-secondary/10 hover:bg-secondary/20 hover:scale-[1.01] hover:border-primary/30 active:scale-[0.99] border border-border/40 rounded-xl cursor-pointer transition-all duration-300 group"
                                     >
                                         <Avatar className="h-8 w-8 border border-primary/20 shrink-0">
                                             <AvatarImage src={event.student?.user?.avatar_url} />
@@ -295,7 +402,7 @@ export default function Calendar() {
                                     </div>
                                 ))
                             ) : (
-                                <div className="text-center py-6 border border-dashed border-border rounded-lg">
+                                <div className="text-center py-8 border border-dashed border-border rounded-xl">
                                     <p className="text-xs text-text-weak font-medium">No upcoming sessions</p>
                                 </div>
                             )}
@@ -413,19 +520,42 @@ export default function Calendar() {
     );
 }
 
+const StatsSkeleton = ({ className = "" }: { className?: string }) => (
+    <div className={`bg-card border border-border/50 rounded-2xl p-5 flex flex-col gap-3 shadow-xs ${className}`}>
+        <Skeleton className="h-5 w-28 rounded-md" />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-1 gap-2 mt-1">
+            {[...Array(4)].map((_, i) => (
+                <div key={i} className="flex justify-between items-center p-2 bg-secondary/10 rounded-lg">
+                    <div className="flex items-center gap-2">
+                        <Skeleton className="w-8 h-8 rounded bg-primary/10" />
+                        <Skeleton className="h-4 w-16 rounded" />
+                    </div>
+                    <Skeleton className="h-5 w-8 rounded" />
+                </div>
+            ))}
+        </div>
+    </div>
+);
+
 const CalendarSkeleton = () => {
     return (
-        <div className="flex flex-col gap-6 w-full animate-pulse">
+        <div className="flex flex-col gap-6 w-full animate-pulse p-1 sm:p-2">
             {/* Header Skeleton */}
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-2 border-b border-border/40 pb-4">
+                <Skeleton className="h-4 w-28 rounded-md" />
                 <Skeleton className="h-8 w-64 rounded-md" />
                 <Skeleton className="h-4 w-96 rounded-md" />
+            </div>
+
+            {/* Mobile/Tablet Stats Skeleton */}
+            <div className="block lg:hidden w-full">
+                <StatsSkeleton />
             </div>
 
             {/* Layout Grid Skeleton */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 w-full">
                 {/* Main Calendar Area Skeleton */}
-                <div className="lg:col-span-8 xl:col-span-9 bg-card border border-border/50 rounded-xl p-5 flex flex-col gap-4">
+                <div className="lg:col-span-8 xl:col-span-9 bg-card border border-border/50 rounded-2xl p-4 sm:p-5 flex flex-col gap-4 shadow-xs">
                     {/* Month header control */}
                     <div className="flex justify-between items-center mb-2">
                         <div className="flex gap-1">
@@ -460,28 +590,15 @@ const CalendarSkeleton = () => {
 
                 {/* Sidebar area skeleton */}
                 <div className="lg:col-span-4 xl:col-span-3 flex flex-col gap-6 w-full">
-                    {/* Stats Widget */}
-                    <div className="bg-card border border-border/50 rounded-xl p-5 flex flex-col gap-3">
-                        <Skeleton className="h-5 w-28 rounded-md" />
-                        <div className="grid grid-cols-1 gap-2 mt-1">
-                            {[...Array(3)].map((_, i) => (
-                                <div key={i} className="flex justify-between items-center p-2 bg-secondary/10 rounded-lg">
-                                    <div className="flex items-center gap-2">
-                                        <Skeleton className="w-8 h-8 rounded bg-primary/10" />
-                                        <Skeleton className="h-4 w-16 rounded" />
-                                    </div>
-                                    <Skeleton className="h-5 w-8 rounded" />
-                                </div>
-                            ))}
-                        </div>
-                    </div>
+                    {/* Stats Widget (Desktop only) */}
+                    <StatsSkeleton className="hidden lg:flex" />
 
                     {/* Upcoming List Skeletons */}
-                    <div className="bg-card border border-border/50 rounded-xl p-5 flex flex-col gap-4">
+                    <div className="bg-card border border-border/50 rounded-2xl p-5 flex flex-col gap-4 shadow-xs">
                         <Skeleton className="h-5 w-36 rounded" />
                         <div className="flex flex-col gap-3">
                             {[...Array(3)].map((_, i) => (
-                                <div key={i} className="flex items-start gap-3 p-3 bg-secondary/10 rounded-lg">
+                                <div key={i} className="flex items-start gap-3 p-3 bg-secondary/10 rounded-xl">
                                     <Skeleton className="h-8 w-8 rounded-full" />
                                     <div className="flex-1 flex flex-col gap-1.5">
                                         <div className="flex justify-between items-start">

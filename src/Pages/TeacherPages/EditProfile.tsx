@@ -133,7 +133,7 @@ const EditProfile=()=>{
             // update auth user avatar
             setAuthUser({
                 ...authUser!,
-                name:updatedTeacher.name,
+                name:updatedTeacher.user.name,
                 avatar_url:updatedTeacher.user.avatar_url,
             });
 

@@ -18,7 +18,7 @@ const CreateCourse=()=>{
     const {isSavingDraft,saveDraftCourse}=useCourseStore();
     const navigate=useNavigate();
 
-    const handleNextStep=()=>{
+    const handleNextStep=()=>{  
         if(stepProgress===10){
             if(!courseData.title || courseData.category_id==0 || !courseData.language || !courseData.description){
                 toast.error("Please fill all the course basic info fields");
