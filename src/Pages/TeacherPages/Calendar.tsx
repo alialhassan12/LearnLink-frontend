@@ -133,7 +133,7 @@ export default function Calendar() {
     const pendingBookingsCount = teacherEvents.filter(e => e.status === 'pending' || !e.status).length;
     const estimatedRevenue = teacherEvents
         .filter(e => e.status === 'approved')
-        .reduce((sum, curr) => sum + (curr.price || 0), 0);
+        .reduce((sum, curr) => sum + (Number(curr.price) || 0), 0);
 
     if (isGettingTeacherEvents) {
         return <CalendarSkeleton />;
