@@ -192,6 +192,9 @@ const CreatePlan = () => {
                         </div>
                     </div>
                     {/* plan features */}
+                    {formData.type == "" &&(
+                        <></>
+                    )}
                     <div className="flex flex-col p-4 sm:p-6 bg-card border border-border rounded-lg">
                         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
                             <div className="flex flex-row items-center gap-2">
@@ -209,7 +212,8 @@ const CreatePlan = () => {
                         </div>
                         {/* features */}
                         <div className="flex flex-col gap-4">
-                            {
+                            {formData.type && formData.type=="teacher" &&(
+
                                 standardFeatures.map((feature,index)=>{
                                     return (
                                         <div key={index} className="flex flex-col bg-bg-1/60 border border-border p-4 rounded-md">
@@ -268,6 +272,7 @@ const CreatePlan = () => {
                                         </div>
                                     )
                                 })
+                            )
                             }
                             <div className="flex flex-row items-center justify-between mt-4">
                                 <span className="font-medium">Custom Features</span>

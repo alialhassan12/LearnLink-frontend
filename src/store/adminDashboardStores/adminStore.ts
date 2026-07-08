@@ -2,6 +2,7 @@ import {create} from "zustand";
 import type { user } from "../../@types/user";
 import axiosInstance from "../../lib/axios";
 import { toast } from "sonner";
+import type { Course } from "@/@types/course";
 
 interface AdminStore{
     users:user[]
@@ -20,6 +21,18 @@ interface AdminStore{
     activateUser:(user_id:number)=>Promise<void>;
     isSuspendingUser:boolean;
     isActivatingUser:boolean;
+
+    // dashboard
+    dashboardData:{
+        totalUsers:number;
+        totalTeachers:number;
+        totalStudents:number;
+        totalCourses:number;
+        recentUsers:user[];
+        recentCourses:Course[];
+    } | null;
+    isGettingDashboardData:boolean;
+    getDashboardData:()=>Promise<void>;
 }
 
 export const useAdminStore=create<AdminStore>((set)=>({
@@ -68,6 +81,20 @@ export const useAdminStore=create<AdminStore>((set)=>({
             toast.error(error?.response?.data?.message || 'An error occurred');
         }finally{
             set({isActivatingUser:false});
+        }
+    },
+
+    dashboardData:null,
+    isGettingDashboardData:false,
+    getDashboardData:async()=>{
+        set({isGettingDashboardData:true});
+        try {
+            const response=await axiosInstance.get('/admin/dashboard');
+            set({dashboardData:response?.data?.data});
+        } catch (error:any) {
+            toast.error(error?.response?.data?.message || 'An error occurred');
+        }finally{
+            set({isGettingDashboardData:false});
         }
     }
 }));
