@@ -47,8 +47,8 @@ const MyCourses=()=>{
                             <Skeleton className="h-5 w-32" />
                         ):(
                             <p className="text-sm text-text-weak">
-                                {coursesPublishedCount}/{maxCoursesAllowed} courses published
-                                {coursesPublishedCount>=maxCoursesAllowed && (
+                                {coursesPublishedCount}/{maxCoursesAllowed===-1?"Unlimited":maxCoursesAllowed} courses published
+                                {coursesPublishedCount>=maxCoursesAllowed && maxCoursesAllowed!==-1 && (
                                     <span className="text-red-500  line-clamp-2">Upgrade your subscription to publish more courses. You can still save courses as draft.</span>
                                 )}
                             </p>
