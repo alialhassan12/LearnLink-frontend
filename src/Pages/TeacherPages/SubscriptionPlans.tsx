@@ -95,7 +95,7 @@ const SubscriptionPlans = () => {
                                                     <BookOpen className="w-3.5 h-3.5" />
                                                 </div>
                                                 <span className="text-xs text-text-strong">
-                                                    Up to <strong className="font-semibold">{plan.features.max_courses}</strong> published courses
+                                                    Up to <strong className="font-semibold">{plan.features.max_courses==-1?"Unlimited":plan.features.max_courses}</strong> published courses
                                                 </span>
                                             </div>
 
@@ -105,7 +105,7 @@ const SubscriptionPlans = () => {
                                                     <Video className="w-3.5 h-3.5" />
                                                 </div>
                                                 <span className="text-xs text-text-strong">
-                                                    <strong className="font-semibold">{plan.features.sessions_per_month}</strong> live sessions / month
+                                                    <strong className="font-semibold">{plan.features.sessions_per_month === -1?"Unlimited":plan.features.sessions_per_month}</strong> live sessions / month
                                                 </span>
                                             </div>
 
