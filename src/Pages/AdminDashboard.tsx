@@ -13,6 +13,7 @@ import Plans from "./adminPages/Plans";
 import Users from "./adminPages/Users";
 import CreatePlan from "./adminPages/CreatePlan";
 import Categories from "./adminPages/Categories";
+import EditPlan from "./adminPages/EditPlan";
 
 const AdminDashboard=()=>{
     const {authUser}=useAuthStore();
@@ -31,7 +32,7 @@ const AdminDashboard=()=>{
                         </div>
                         <div className="flex items-center gap-4">
                             <ThemeToggle />
-                            <Bell className="cursor-pointer hover:scale-110 transition-all duration-300 ease-in-out hover:text-primary text-text-strong" />
+                            {/* <Bell className="cursor-pointer hover:scale-110 transition-all duration-300 ease-in-out hover:text-primary text-text-strong" /> */}
                             <div className="flex items-center gap-2">
                                 <Separator orientation="vertical" />
                                 <Avatar className="cursor-pointer" >
@@ -53,6 +54,7 @@ const AdminDashboard=()=>{
                         <Route path="/plans">
                             <Route index element={<Plans/>}/>
                             <Route path="new" element={<CreatePlan/>}/>
+                            <Route path="edit" element={<EditPlan/>}/>
                         </Route>
                         <Route path="/categories" element={<Categories/>}/>
                     </Routes>

@@ -1,12 +1,14 @@
-import { CircleCheck, Plus, TrendingUp, Users, Zap } from "lucide-react";
+import { Ban, CircleCheck, Edit, MoreVertical, Plus, TrendingUp, Users, Zap } from "lucide-react";
 import { Button } from "../../components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { usePlanStore } from "../../store/adminDashboardStores/plansStore";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Badge } from "../../components/ui/badge";
 import { Skeleton } from "../../components/ui/skeleton";
 import { Separator } from "../../components/ui/separator";
 import type { Plan } from "../../@types/plan";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../../components/ui/dropdown-menu";
+import { Spinner } from "@/components/ui/spinner";
 
 const Plans = () => {
     const navigate = useNavigate();
@@ -106,7 +108,11 @@ const formatFeatureValue = (value: any): string => {
 };
 
 const PlanCard = ({ plan }: { plan: Plan }) => {
+    const {changePlanStatus,isChangingPlanStatus,setPlanToEdit} = usePlanStore();
+    const [selectedPlanId,setSelectedPlanId]=useState<number | null>(null);
     const isActive = plan.status === "active";
+
+    const navigate=useNavigate();
 
     return (
         <div className="group flex flex-col bg-card border border-border/80 rounded-2xl overflow-hidden hover:border-primary/40 hover:shadow-xl hover:shadow-primary/5 transition-all duration-300">
@@ -122,15 +128,54 @@ const PlanCard = ({ plan }: { plan: Plan }) => {
                     >
                         {plan.type}
                     </Badge>
-                    <span
-                        className={`text-xs font-medium px-2 py-0.5 rounded-full ${
-                            isActive
-                                ? "bg-green-500/10 text-green-500"
-                                : "bg-zinc-500/10 text-text-weak"
-                        }`}
-                    >
-                        {isActive ? "● Active" : "○ Inactive"}
-                    </span>
+                    <div className="flex flex-row items-center gap-2">
+                        <span
+                            className={`text-xs font-medium px-2 py-0.5 rounded-full ${
+                                isActive
+                                    ? "bg-green-500/10 text-green-500"
+                                    : "bg-zinc-500/10 text-text-weak"
+                            }`}
+                        >
+                            {isActive ? "● Active" : "○ Inactive"}
+                        </span>
+                        <DropdownMenu>
+                            <DropdownMenuTrigger
+                                asChild
+                            >
+                                <Button variant="ghost" className="hover:cursor-pointer" disabled={isChangingPlanStatus}>
+                                    {isChangingPlanStatus && plan.id=== selectedPlanId?
+                                        <Spinner/>
+                                        :
+                                        <MoreVertical/>
+                                    }
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent className="p-2 w-40 text-text-weak" align="end">
+                                <DropdownMenuItem
+                                    onClick={()=>{
+                                        setSelectedPlanId(plan.id);
+                                        changePlanStatus(plan.id,isActive?'inactive':'active')
+                                    }}
+                                    className="flex items-center cursor-pointer"
+                                    disabled={isChangingPlanStatus && plan.id=== selectedPlanId}
+                                >
+                                    <Ban/>
+                                    <p>{plan.status === "active" ? "Deactivate Plan" : "Activate Plan"}</p>
+                                </DropdownMenuItem>
+                                <DropdownMenuItem 
+                                    className="flex items-center cursor-pointer"
+                                    onClick={()=>{
+                                        setPlanToEdit(plan);
+                                        navigate("/admin/dashboard/plans/edit")
+                                    }}
+                                >
+                                    <Edit/>
+                                    <p>Edit Plan</p>
+                                </DropdownMenuItem>
+                                
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                    </div>
                 </div>
 
                 {/* title */}

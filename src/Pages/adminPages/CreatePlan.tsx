@@ -442,17 +442,19 @@ const CreatePlan = () => {
                             <Separator/>
                             {/* features */}
                             <div className="flex flex-col gap-2">
-                                {standardFeatures.map((feature,index)=>{
-                                    return(
-                                        <div 
-                                            key={index}
-                                            className="flex items-center gap-2"
-                                        >
-                                            <CircleCheck className="w-4 h-4 text-primary"/>
-                                            <span className="text-sm text-text-strong">{feature.label}</span>
-                                        </div>
-                                    );
-                                })}
+                                {formData.type && formData.type=="teacher" &&
+                                    (standardFeatures.map((feature,index)=>{
+                                        return(
+                                            <div 
+                                                key={index}
+                                                className="flex items-center gap-2"
+                                            >
+                                                <CircleCheck className="w-4 h-4 text-primary"/>
+                                                <span className="text-sm text-text-strong">{feature.label}</span>
+                                            </div>
+                                        );
+                                    }))
+                                }
                                 {customFeatures.map((feature,index)=>{
                                     return(
                                         <div 

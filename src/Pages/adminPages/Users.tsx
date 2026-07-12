@@ -203,11 +203,11 @@ const Users = () => {
                                             {/* SUBSCRIPTION */}
                                             <td className="px-6 py-4 align-middle">
                                                 {planTitle.toLowerCase().includes("pro") ? (
-                                                    <span className="inline-flex items-center text-xs font-semibold px-3 py-1 rounded-full bg-fuchsia-950/20 text-fuchsia-300 border border-fuchsia-850/30 shadow-[0_0_12px_rgba(217,70,239,0.05)]">
+                                                    <span className="inline-flex items-center text-xs font-semibold px-3 py-1 rounded-full bg-fuchsia-900/10 text-fuchsia-400 border border-fuchsia-850/30 shadow-[0_0_12px_rgba(217,70,239,0.05)]">
                                                         {planTitle}
                                                     </span>
-                                                ) : planTitle.toLowerCase().includes("enterprise") ? (
-                                                    <span className="inline-flex items-center text-xs font-semibold px-3 py-1 rounded-full bg-amber-950/30 text-amber-400 border border-amber-900/30 shadow-[0_0_12px_rgba(245,158,11,0.05)]">
+                                                ) : planTitle.toLowerCase().includes("premium") ? (
+                                                    <span className="inline-flex items-center text-xs font-semibold px-3 py-1 rounded-full bg-amber-900/10 text-amber-400 border border-amber-900/30 shadow-[0_0_12px_rgba(245,158,11,0.05)]">
                                                         {planTitle}
                                                     </span>
                                                 ) : (

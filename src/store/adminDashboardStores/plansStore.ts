@@ -12,6 +12,14 @@ interface PlansStore{
 
     isCreatingPlan:boolean;
     createPlan:(plan:Plan)=>Promise<boolean>;
+
+    changePlanStatus:(planId:number,status:string)=>Promise<void>;
+    isChangingPlanStatus:boolean;
+
+    planToEdit:Plan|null;
+    setPlanToEdit:(plan:Plan)=>void;
+    isEdittingPlan:boolean;
+    editPlan:(plan:Plan)=>Promise<boolean>;
 }
 
 export const usePlanStore=create<PlansStore>((set)=>({
@@ -48,6 +56,54 @@ export const usePlanStore=create<PlansStore>((set)=>({
             return false;
         }finally{
             set({isCreatingPlan:false});
+        }
+    },
+
+    isChangingPlanStatus:false,
+    changePlanStatus:async(planId:number,status:string)=>{
+        set({isChangingPlanStatus:true});
+        try{
+            const response=await axiosInstance.put('/admin/plans/change-status',{
+                plan_id:planId,
+                status:status
+            });
+            set((state)=>{
+                return {
+                    allPlans:state.allPlans.map((plan)=>(plan.id===planId?response.data.plan:plan))
+                }
+            })
+            toast.success(response.data.message || 'Plan status changed successfully');
+        }catch(error:any){
+            console.log(error?.response?.data?.message);
+            toast.error(error?.response?.data?.message);
+        }finally{
+            set({isChangingPlanStatus:false});
+        }
+    },
+
+    planToEdit:null,
+    setPlanToEdit:(plan:Plan)=>{
+        set({planToEdit:plan});
+    },
+
+    isEdittingPlan:false,
+    editPlan:async(plan:Plan)=>{
+        set({isEdittingPlan:true});
+        try{
+            const response=await axiosInstance.put('/admin/plans/update',plan);
+            set((state)=>{
+                return {
+                    allPlans:state.allPlans.map((p)=>(p.id===plan.id?response.data.plan:p))
+                }
+            })
+            toast.success(response.data.message || 'Plan updated successfully');
+            return true;
+        }catch(error:any){
+            console.log(error?.response?.data?.message);
+            toast.error(error?.response?.data?.message);
+            return false;
+        }finally{
+            set({isEdittingPlan:false});
         }
     }
 }));

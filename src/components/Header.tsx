@@ -6,12 +6,13 @@ import { Separator } from "./ui/separator";
 import { Bell, Menu, Sparkles, X } from "lucide-react";
 import { Button } from "./ui/button";
 import { useState } from "react";
+import NotificationHistoryButton from "./NotificationHistoryButton";
 
 const Header = () => {
     const {authUser}=useAuthStore();
     const location=useLocation();
     const navigate=useNavigate();
-    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
 
     const navLinks={
         student:[
@@ -91,7 +92,7 @@ const Header = () => {
                             <p className="font-medium">AI Assistant</p>
                         </Button>
                         <ThemeToggle/>
-                        <Bell className="cursor-pointer hover:scale-110 transition-all duration-300 ease-in-out hover:text-primary " />
+                        <NotificationHistoryButton/>
                         <div className="flex items-center gap-2">
                             <Separator orientation="vertical" />
                             <Avatar className="cursor-pointer" onClick={()=>navigate("/marketplace/profile")}>
@@ -107,7 +108,7 @@ const Header = () => {
                 :
                     <div className="hidden md:flex flex-row items-center gap-2">
                         <ThemeToggle/>
-                        <Bell className="cursor-pointer hover:scale-110 transition-all duration-300 ease-in-out hover:text-primary text-text-strong" />
+                        <NotificationHistoryButton/>
                         <div className="flex items-center gap-2">
                             <Separator orientation="vertical" />
                             <Avatar className="cursor-pointer" onClick={()=>navigate("/dashboard")}>
@@ -125,6 +126,7 @@ const Header = () => {
                 {/* Mobile: theme toggle + hamburger */}
                 <div className="flex md:hidden items-center gap-2">
                     <ThemeToggle/>
+                    <NotificationHistoryButton/>
                     <button 
                         onClick={() => setMobileMenuOpen(!mobileMenuOpen)} 
                         className="p-2 rounded-lg hover:bg-primary/10 transition-colors cursor-pointer"

@@ -6,6 +6,7 @@ import { Separator } from "../ui/separator";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import useAuthStore from "@/store/authStore";
 import { useLocation, useNavigate } from "react-router-dom";
+import NotificationHistoryButton from "../NotificationHistoryButton";
 
 const TeacherHeader=()=>{
     const {authUser}=useAuthStore();
@@ -28,7 +29,7 @@ const TeacherHeader=()=>{
                     <p className="font-medium hidden sm:block">AI Assistant</p>
                 </Button>
                 <ThemeToggle />
-                <Bell className="cursor-pointer hover:scale-110 transition-all duration-300 ease-in-out hover:text-primary text-text-strong" />
+                <NotificationHistoryButton/>
                 <div className="flex items-center gap-2">
                     <Separator orientation="vertical" className="hidden sm:block" />
                     <Avatar className="cursor-pointer" onClick={()=>navigate("/dashboard/profile")}>
@@ -45,4 +46,4 @@ const TeacherHeader=()=>{
     );
 }
 
-export default TeacherHeader;
+export default TeacherHeader;
