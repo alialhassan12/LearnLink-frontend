@@ -126,7 +126,9 @@ const Header = () => {
                 {/* Mobile: theme toggle + hamburger */}
                 <div className="flex md:hidden items-center gap-2">
                     <ThemeToggle/>
-                    <NotificationHistoryButton/>
+                    {authUser&&(
+                        <NotificationHistoryButton/>
+                    )}
                     <button 
                         onClick={() => setMobileMenuOpen(!mobileMenuOpen)} 
                         className="p-2 rounded-lg hover:bg-primary/10 transition-colors cursor-pointer"
