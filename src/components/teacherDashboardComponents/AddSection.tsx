@@ -18,6 +18,7 @@ const AddSection=({open,setOpen,setFormData}:{open:boolean,setOpen:(open:boolean
             return{
                 ...prev,
                 sections:[...(prev.sections || []),{
+                    id:-(prev.sections.length+1),
                     title:sectionTitle.trim(),
                     order:prev.sections ? prev.sections.length + 1 : 1,
                     materials:[]
