@@ -75,7 +75,7 @@ const SubscriptionPlans = () => {
                                                 ${plan.price}
                                             </span>
                                             <span className="text-xs text-text-weak font-medium">
-                                                /{plan.duration_days === 30 ? 'month' : plan.duration_days === 365 ? 'year' :plan.duration_days !== null? `${plan.duration_days} days`:"life time"}
+                                                /{plan.duration_days === 30 ? 'month' : plan.duration_days === 365 ? 'year' :plan.duration_days === -1?"Lifetime": `${plan.duration_days} days`}
                                             </span>
                                         </div>
 
