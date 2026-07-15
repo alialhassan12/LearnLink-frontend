@@ -4,7 +4,7 @@ import { Button } from "../../../components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "../../../components/ui/sheet";
 import CourseFilterSection from "../../../components/studentMarketplaceComponents/CourseFilterSection";
 import { useCourseStore } from "../../../store/courseStore";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import useCategoryStore from "../../../store/categoryStore";
 import CourseCardSkeleton from "../../../components/studentMarketplaceComponents/CourseCardSkeleton";
 import CourseCard from "../../../components/studentMarketplaceComponents/CourseCard";
@@ -47,13 +47,21 @@ const BrowseCourses=()=>{
                     <div className="relative w-full">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-text-weak h-4 w-4" />
                         <Input 
+                            onChange={(e)=>{
+                                setCourseFilters({
+                                    ...courseFilters,
+                                    search_query:e.target.value
+                                });
+                            }}
+                            value={courseFilters.search_query}
                             type="text"
                             placeholder="Search by category, subject, or keyword..."
                             className="w-full h-11 pl-10 border-none focus-visible:ring-0 bg-transparent"
                         />
                     </div>
                     {/* search button */}
-                    <Button 
+                    <Button
+                        onClick={()=>{getCourses(1)}}
                         className="w-full md:w-auto h-11 px-8 cursor-pointer font-medium hover:scale-[1.02] transition-all duration-300 ease-in-out bg-primary hover:bg-primary/90"
                     >
                         Search
@@ -79,7 +87,7 @@ const BrowseCourses=()=>{
                             <div className="py-6 overflow-y-auto h-full">
                                 <CourseFilterSection 
                                     categories={categories}
-                                    isGettingFilters={isLoading}
+                                    isGettingFilters={isGettingCategories}
                                 />
                             </div>
                         </SheetContent>
@@ -91,7 +99,7 @@ const BrowseCourses=()=>{
                     <div data-aos="fade-right" className="sticky top-24 flex flex-col gap-6 p-6 bg-bg-1 border border-border rounded-xl shadow-sm">
                         <CourseFilterSection 
                             categories={categories}
-                            isGettingFilters={isLoading}
+                            isGettingFilters={isGettingCategories}
                         />
                     </div>
                 </aside>

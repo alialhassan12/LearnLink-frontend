@@ -25,7 +25,9 @@ const BrowseTeachers = () => {
         getTeachers,
         isGettingTeachers,
         teacherPaginationData,
-        clearTeacherFilter
+        clearTeacherFilter,
+        teacherFilter,
+        setTeacherFilter
     }=useBrowseStore();
 
     const getFilters=async()=>{
@@ -57,6 +59,10 @@ const BrowseTeachers = () => {
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-text-weak h-4 w-4" />
                         <Input 
                             type="text"
+                            value={teacherFilter.search_query}
+                            onChange={(e)=>{
+                                setTeacherFilter({...teacherFilter,search_query:e.target.value})
+                            }}
                             placeholder="Search by name, subject, or keyword..."
                             className="w-full h-11 pl-10 border-none focus-visible:ring-0 bg-transparent"
                         />
@@ -90,7 +96,7 @@ const BrowseTeachers = () => {
                                 <TeacherFilterSection 
                                     subjects={subjects} 
                                     languages={languages} 
-                                    isGettingFilters={isLoading} 
+                                    isGettingFilters={isGettingFilters} 
                                 />
                             </div>
                         </SheetContent>
@@ -103,7 +109,7 @@ const BrowseTeachers = () => {
                         <TeacherFilterSection 
                             subjects={subjects} 
                             languages={languages} 
-                            isGettingFilters={isLoading} 
+                            isGettingFilters={isGettingFilters} 
                         />
                     </div>
                 </aside>

@@ -8,6 +8,7 @@ import type { CourseReview } from "../@types/courseReview";
 interface CourseFilter{
     category_id?:number;
     price_range:[min:number,max:number];
+    search_query?:string;
 }
 
 interface CoursePaginationData{
@@ -194,12 +195,14 @@ export const useCourseStore = create<CourseStore>((set,get) => ({
     coursePaginationData:null,
     courseFilters:{
         category_id: undefined,
-        price_range: [0, 100]
+        price_range: [0, 100],
+        search_query: ""
     },
     setCourseFilters:(courseFilters:CourseFilter)=>set({courseFilters}),
     clearCourseFilters:()=>set({courseFilters:{
         category_id: undefined,
-        price_range: [0, 100]
+        price_range: [0, 100],
+        search_query: ""
     }}),
     
     isGettingCourses:false,
@@ -207,10 +210,11 @@ export const useCourseStore = create<CourseStore>((set,get) => ({
         set({isGettingCourses:true});
         const filters=get().courseFilters;
         try{
-            if(filters.category_id || filters.price_range[0] !== 0 || filters.price_range[1] !== 100){
+            if(filters.category_id || filters.price_range[0] !== 0 || filters.price_range[1] !== 100 || filters.search_query !== ""){
                 const response=await axiosInstance.post(`/courses/get-courses/filtered?page=${page}`,{
                     category_id:filters.category_id,
-                    price_range:filters.price_range
+                    price_range:filters.price_range,
+                    search_query:filters.search_query
                 });
                 set({courses:response.data.courses,coursePaginationData:response.data.pagination});
             }else{
@@ -220,6 +224,7 @@ export const useCourseStore = create<CourseStore>((set,get) => ({
             return true;
         }catch(error:any){
             toast.error(error.response?.data?.message || "An error occurred");
+            console.log(error?.response?.data);
             return false;
         }finally{
             set({isGettingCourses:false});

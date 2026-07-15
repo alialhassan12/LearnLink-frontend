@@ -7,6 +7,7 @@ interface TeacherFilter {
     subjects?:string[];
     language?:string;
     hourlyRate:[min:number,max:number];
+    search_query?:string;
     rating?:number | null;
 }
 
@@ -72,9 +73,11 @@ const useBrowseStore=create<BrowseStoreState>((set,get)=>({
         set({isGettingTeachers:true});
         const currentFilters=get().teacherFilter;
         try {
-            if((currentFilters.hourlyRate[0] !== 0 && currentFilters.hourlyRate[1]!==2000) || (currentFilters.subjects?.length !== 0) || (currentFilters.language !== "all") || (currentFilters.rating !== 0)){
+            if((currentFilters.hourlyRate[0] !== 0 && currentFilters.hourlyRate[1]!==2000) || (currentFilters.subjects?.length !== 0) || (currentFilters.language !== "all") || (currentFilters.rating !== 0) || (currentFilters.search_query !== "")){
+                console.log(currentFilters);
                 const response = await axiosInstance.post(`/teachers/filters?page=${page}`,currentFilters);
                 set({teachers:response.data.teachers,teacherPaginationData:response.data.pagination});
+                console.log(response.data);
             }else{
                 const response = await axiosInstance.get(`/teachers?page=${page}`);
                 set({teachers:response.data.teachers,teacherPaginationData:response.data.pagination});
@@ -107,6 +110,7 @@ const useBrowseStore=create<BrowseStoreState>((set,get)=>({
         subjects:[],
         language:"all",
         hourlyRate:[0,2000],
+        search_query:"",
         rating:0
     },
     setTeacherFilter:(filter:TeacherFilter)=>set({teacherFilter:filter}),
@@ -114,6 +118,7 @@ const useBrowseStore=create<BrowseStoreState>((set,get)=>({
         subjects:[],
         language:"all",
         hourlyRate:[0,2000],
+        search_query:"",
         rating:0
     }})
 
