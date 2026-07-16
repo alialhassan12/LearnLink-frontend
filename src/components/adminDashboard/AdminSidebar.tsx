@@ -12,7 +12,7 @@ import {
     SidebarTrigger
 } from "../ui/sidebar"
 import {ThemeToggle} from "../ThemeToggle"
-import { GraduationCap, LayoutDashboard,LogOut, Users, Tag, Boxes } from "lucide-react";
+import { GraduationCap, LayoutDashboard,LogOut, Users, Tag, Boxes, BookOpen } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 import useAuthStore from "../../store/authStore";
 import { Spinner } from "../ui/spinner";
@@ -54,6 +54,12 @@ const AdminSidebar = () => {
             path:"/admin/dashboard/categories",
             icon:Boxes,
             onClick:()=>navigate("/admin/dashboard/categories")
+        },
+        {
+            label:"Courses Management",
+            path:"/admin/dashboard/courses",
+            icon:BookOpen,
+            onClick:()=>navigate("/admin/dashboard/courses")
         }
     ];
 
@@ -87,7 +93,7 @@ const AdminSidebar = () => {
                         <SidebarMenu>
                             {OverviewNavItems.map((item,index)=>(
                                 <SidebarMenuItem key={index}>
-                                    <SidebarMenuButton tooltip={item.label} onClick={item.onClick} className={`transition-all hover:translate-x-1 ${item.path===pathname?'border-l-2 border-primary text-primary':''}`}>
+                                    <SidebarMenuButton tooltip={item.label} onClick={item.onClick} className={`transition-all hover:translate-x-1 ${pathname===item.path || (item.path!=="/admin/dashboard" && pathname.startsWith(item.path))?'border-l-2 border-primary text-primary':''}`}>
                                         <item.icon className="text-primary/80" />
                                         <span>{item.label}</span>
                                     </SidebarMenuButton>

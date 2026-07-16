@@ -1,5 +1,6 @@
 import type { Category } from "./category";
 import type { CourseSection } from "./course_section";
+import type { CourseReview } from "./courseReview";
 import type { Enrollment } from "./enrollment";
 import type { Teacher } from "./teacher";
 
@@ -24,7 +25,8 @@ export interface Course{
     sections?:CourseSection[],
     enrollments?:Enrollment[],
     enrollments_count?:number,
-
+    
+    course_reviews?:CourseReview[],
     course_reviews_avg_rating?:number;
     course_reviews_count?:number;
 }
