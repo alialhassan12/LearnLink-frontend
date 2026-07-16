@@ -26,4 +26,5 @@ export interface Teacher {
     user?:user;
     avg_rating?:number;
     review_count?:number;
+    approved_bookings_count?:number;
 }

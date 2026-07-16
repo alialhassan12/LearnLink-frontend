@@ -29,4 +29,6 @@ export interface Course{
     course_reviews?:CourseReview[],
     course_reviews_avg_rating?:number;
     course_reviews_count?:number;
+
+    revenue?:number;
 }

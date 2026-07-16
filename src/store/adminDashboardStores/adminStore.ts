@@ -44,6 +44,13 @@ interface AdminStore{
         totalCourses:number;
         recentUsers:user[];
         recentCourses:Course[];
+        userGrowth:{ month: string; users: number }[];
+        courseEnrollments:{ month: string; enrollments: number }[];
+        revenueTrend:{ month: string; revenue: number }[];
+        topTeachersByRating:Teacher[];
+        topTeachersBySessions:Teacher[];
+        topCoursesByEnrollment:Course[];
+        topCoursesByRevenue:Course[];
     } | null;
     isGettingDashboardData:boolean;
     getDashboardData:()=>Promise<void>;
@@ -119,6 +126,7 @@ export const useAdminStore=create<AdminStore>((set)=>({
         try {
             const response=await axiosInstance.get('/admin/dashboard');
             set({dashboardData:response?.data?.data});
+            console.log(response.data.data);
         } catch (error:any) {
             toast.error(error?.response?.data?.message || 'An error occurred');
         }finally{
