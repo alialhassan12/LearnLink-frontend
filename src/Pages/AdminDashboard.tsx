@@ -16,6 +16,7 @@ import Categories from "./adminPages/Categories";
 import EditPlan from "./adminPages/EditPlan";
 import Courses from "./adminPages/Courses";
 import CourseDetails from "./adminPages/CourseDetails";
+import Subscriptions from "./adminPages/Subscriptions";
 
 const AdminDashboard=()=>{
     const {authUser}=useAuthStore();
@@ -61,6 +62,7 @@ const AdminDashboard=()=>{
                         <Route path="/categories" element={<Categories/>}/>
                         <Route path="/courses" element={<Courses/>}/>
                         <Route path="/courses/:id" element={<CourseDetails/>}/>
+                        <Route path="/subscriptions" element={<Subscriptions/>}/>
                     </Routes>
                 </div>
                 

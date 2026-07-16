@@ -12,7 +12,7 @@ import {
     SidebarTrigger
 } from "../ui/sidebar"
 import {ThemeToggle} from "../ThemeToggle"
-import { GraduationCap, LayoutDashboard,LogOut, Users, Tag, Boxes, BookOpen } from "lucide-react";
+import { GraduationCap, LayoutDashboard,LogOut, Users, Tag, Boxes, BookOpen, CreditCard } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 import useAuthStore from "../../store/authStore";
 import { Spinner } from "../ui/spinner";
@@ -60,6 +60,12 @@ const AdminSidebar = () => {
             path:"/admin/dashboard/courses",
             icon:BookOpen,
             onClick:()=>navigate("/admin/dashboard/courses")
+        },
+        {
+            label:"Subscriptions Management",
+            path:"/admin/dashboard/subscriptions",
+            icon:CreditCard,
+            onClick:()=>navigate("/admin/dashboard/subscriptions")
         }
     ];
 
