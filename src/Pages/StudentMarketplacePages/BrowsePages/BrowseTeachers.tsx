@@ -136,18 +136,20 @@ const BrowseTeachers = () => {
                                     <TeacherCard key={teacher.id || i} teacher={teacher} />
                                 ))
                             ) : (
-                                <div className="flex flex-col items-center justify-center py-20 text-text-weak">
-                                    <p className="text-lg">No teachers found matching your criteria.</p>
-                                    <Button 
-                                        onClick={() =>{ 
-                                            clearTeacherFilter()
-                                            getTeachers(1);
-                                        }} 
-                                        variant="link" 
-                                        className="text-primary"
-                                    >
-                                        Clear all filters
-                                    </Button>
+                                <div className="col-span-full items-center justify-center py-20 text-text-weak">
+                                    <div className="w-full flex flex-col justify-center items-center">
+                                        <p className="text-lg text-text-weak">No teachers found matching your criteria.</p>
+                                        <Button 
+                                            onClick={() =>{ 
+                                                clearTeacherFilter()
+                                                getTeachers(1);
+                                            }} 
+                                            variant="link" 
+                                            className="text-primary"
+                                        >
+                                            Clear all filters
+                                        </Button>
+                                    </div>
                                 </div>
                             )
                         )}
