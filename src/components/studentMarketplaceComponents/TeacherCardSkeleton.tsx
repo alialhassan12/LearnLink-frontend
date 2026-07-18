@@ -1,8 +1,8 @@
 import { Skeleton } from "../ui/skeleton";
 
 const TeacherCardSkeleton = () => (
-    <div className="flex flex-col md:flex-row gap-6 bg-card border border-border rounded-2xl p-5">
-        <Skeleton className="w-full md:w-48 h-48 rounded-xl shrink-0" />
+    <div className="flex flex-col gap-6 bg-card border border-border rounded-2xl p-5">
+        <Skeleton className="w-full h-48 rounded-xl shrink-0" />
         <div className="flex flex-col flex-1 gap-4 py-2">
             <div className="flex justify-between items-start">
                 <div className="space-y-2 w-full max-w-[200px]">

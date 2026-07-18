@@ -69,6 +69,7 @@ const BrowseTeachers = () => {
                     </div>
                     {/* search button */}
                     <Button 
+                        onClick={()=>getTeachers(1)}
                         className="w-full md:w-auto h-11 px-8 cursor-pointer font-medium hover:scale-[1.02] transition-all duration-300 ease-in-out bg-primary hover:bg-primary/90"
                     >
                         Search
@@ -124,7 +125,7 @@ const BrowseTeachers = () => {
                     </div>
 
                     {/* teacher results */}
-                    <div className="grid grid-cols-1 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                         {isLoading ? (
                             Array.from({ length: 4 }).map((_, i) => (
                                 <TeacherCardSkeleton key={i} />

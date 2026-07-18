@@ -13,9 +13,9 @@ const TeacherCard = ({ teacher }: { teacher: Teacher }) => {
     }
     
     return(
-            <div data-aos="fade-up" className="group flex flex-col md:flex-row gap-6 bg-card border border-border rounded-2xl p-5 hover:shadow-lg hover:border-primary/20 transition-all duration-300">
+            <div data-aos="fade-up" className="group flex flex-col gap-6 bg-card border border-border rounded-2xl p-5 hover:shadow-lg hover:border-primary/20 transition-all duration-300">
                 {/* teacher image */}
-                <div className="relative w-full md:w-48 h-48 md:h-48 shrink-0">
+                <div className="relative w-full h-48 md:h-48 shrink-0">
                     {
                         teacher?.user?.avatar_url?(
                             <img 
@@ -85,9 +85,6 @@ const TeacherCard = ({ teacher }: { teacher: Teacher }) => {
                             className="flex-1 h-11 rounded-xl cursor-pointer font-semibold transition-all" variant="outline"
                         >
                             View Profile
-                        </Button>
-                        <Button className="flex-1 h-11 rounded-xl cursor-pointer font-semibold bg-primary hover:bg-primary/90 text-white shadow-md shadow-primary/10">
-                            Book Session
                         </Button>
                     </div>
                 </div>
